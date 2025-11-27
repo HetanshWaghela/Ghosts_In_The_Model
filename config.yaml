@@ -1,0 +1,43 @@
+# Model configuration
+model:
+  name: "gpt2"  # GPT-2 Small
+  hidden_size: 768
+  num_layers: 12
+  vocab_size: 50257
+
+# Dataset configuration
+data:
+  num_cities: 20
+  probes_per_city: 20
+  forget_per_city: 5
+  retain_per_city: 5
+
+# Training configuration
+training:
+  probe:
+    test_size: 0.2
+    random_state: 42
+  
+  unlearning:
+    ga:
+      learning_rate: 1.0e-5
+      max_epochs: 100
+      target_prob: 0.01  # Stop when P(correct) < 1%
+      retain_weight: 1.0  # Lambda for retain loss
+  
+    neglora:
+      learning_rate: 1.0e-4
+      max_epochs: 100
+      target_prob: 0.01
+      lora_rank: 8
+      lora_alpha: 16
+      target_modules: ["c_attn", "c_proj", "c_fc"]
+
+# Experiment configuration
+experiment:
+  seeds: [42, 123, 456]  # Three random seeds
+  device: "cuda"  # or "cpu"(ofc im using cpu/mps)
+
+# Causal tracing configuration
+causal_tracing:
+  noise_std_multiplier: 3.0  # Multiply embedding std by this
