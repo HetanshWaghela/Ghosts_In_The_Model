@@ -39,7 +39,7 @@ test_input= "The Eiffel Tower is located in"
 inputs = tokenizer(test_input, return_tensors="pt")
 outputs= model(**inputs,output_hidden_states=True)
 
-print(f"Input" '{test_input}')
+print(f"Input: '{test_input}'")
 print(f"Input token IDs: {inputs['input_ids'].tolist()}")
 
 print(f"No.of hidden states:{len(outputs.hidden_states)}")
@@ -52,3 +52,6 @@ predicted_word= tokenizer.decode([top_token])
 
 print(f"\nPredicted next word: '{predicted_word}' with probability: {top_prob:.4f}")
 print("\nAll tests passed successfully!")
+
+
+#Now we move onto model exploration

@@ -1,0 +1,3 @@
+tokenize() --- Debugging, understanding tokeniztion, analyzing text splitting
+encode() --- Preparing model input
+decode() -- Converting IDs back to text
