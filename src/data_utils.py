@@ -300,6 +300,145 @@ class DatasetGenerator:
         return prompts
 
     
+    def generate_forget_dataset(self,num_per_city: int=5)-> List[Prompt]:
+        """
+        generate the forget dataset.
+        Uses landmark based templates
+        """
+        prompts=[]
+        cities = self.city_db.get_all_cities()
+      
+        print("Generating forget dataset...")
+        for city in tqdm(cities):
+            city_info = self.city_db.get_city_info(city)
+            city_prompts = []
+          
+            for landmark in city_info['landmarks']:
+                for template, answer_template, category in self.templates.FORGET_TEMPLATES:
+                    prompt_text = template.format(landmark=landmark, city=city)
+                    expected_answer = city
+                  
+                    is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
+                  
+                    if is_valid:
+                        city_prompts.append(Prompt(
+                            text=prompt_text,
+                            target=expected_answer,
+                            city=city,
+                            category=category,
+                            prompt_type='forget'
+                        ))
+                        break  # One prompt per landmark is enough
+          
+            prompts.extend(city_prompts[:num_per_city])
+      
+        print(f"Generated {len(prompts)} forget prompts")
+        return prompts
+
+    def generate_retain_dataset(self,forget_cities:List[str],num_per_city:int=5)-> List[Prompt]:
+        """
+        Generate the retain dataset.
+        uses facts about cities NOT in the forget set.
+        """
+        prompts = []
+        all_cities = self.city_db.get_all_cities()
+        retain_cities = [c for c in all_cities if c not in forget_cities]
+      
+        print("Generating retain dataset...")
+        for city in tqdm(retain_cities):
+            city_info = self.city_db.get_city_info(city)
+            city_prompts = []
+          
+            # Use landmark templates for retain cities
+            for landmark in city_info['landmarks']:
+                prompt_text = f"The {landmark} is located in"
+                expected_answer = city
+              
+                is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
+              
+                if is_valid:
+                    city_prompts.append(Prompt(
+                        text=prompt_text,
+                        target=expected_answer,
+                        city=city,
+                        category='landmark',
+                        prompt_type='retain'
+                    ))
+          
+            prompts.extend(city_prompts[:num_per_city])
+      
+        print(f"Generated {len(prompts)} retain prompts")
+        return prompts
+
+
+    def save_dataset(self,prompts:List[Prompt], filepath:str):
+        """ 
+        save the dataset to a JSON file
+        """
+        data = [asdict(p) for p in prompts]
+
+        os.makedirs(os.path.dirname(filepath),exist_ok=True)
+        with open(filepath,'w') as f:
+            json.dump(data,f,indent=2)
+
+        print(f"Saved {len(prompts)} prompts to {filepath}")
+
+    def load_dataset(self,filepath:str)-> List[Prompt]:
+
+        """Load dataset from JSON file"""
+
+        with open(filepath,'r') as f:
+            data=json.load(f)
+
+        return [Prompt(**d) for d in data]
+
+
+def create_all_datasets(output_dir: str ="data/processed"):
+
+    """Main fn to create all 3 datasets. Call this once at the start."""
+
+    from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+    import random
+    device= "cuda" if torch.cuda.is_available() else "cpu"
+
+    tokenizer= GPT2Tokenizer.from_pretrained("gpt2")
+    model= GPT2LMHeadModel.from_pretrained("gpt2").to(device)
+    model.eval()
+
+    generator= DatasetGenerator(model,tokenizer,device)
+
+    all_cities= generator.city_db.get_all_cities()
+    random.seed(42)#ANSWER TO LIFE, THE UNIVERSE AND EVERYTHING
+
+    shuffled= random.sample(all_cities, len(all_cities))
+
+    shared_cities= shuffled[:10]
+    probe_only_cities= shuffled[10:15]
+    retain_only_cities= shuffled[15:]
+
+    probe_cities= shared_cities+probe_only_cities
+    forget_cities= shared_cities
+    retain_cities=retain_only_cities
+    
+    #generating datasets
+    probe_data= generator.generate_probe_dataset(num_per_city=20)
+    forget_data= generator.generate_forget_dataset(num_per_city=5)
+    retain_data= generator.generate_retain_dataset(forget_cities=forget_cities,num_per_city=5)
+
+    generator.save_dataset(probe_data, os.path.join(output_dir, "probe_train.json"))
+    generator.save_dataset(forget_data, os.path.join(output_dir, "forgett.json"))
+    generator.save_dataset(retain_data, os.path.join(output_dir, "retain.json"))
+
+
+    return probe_data, forget_data, retain_data
+
+if __name__ == "__main__":
+    create_all_datasets()           
+
+
+
+
 
 
         
