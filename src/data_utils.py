@@ -219,6 +219,93 @@ class DatasetGenerator:
     def __init__(self,model: GPT2LMHeadModel, tokenizer: GPT2Tokenizer, device: str):
         self.model= model
         self.tokenizer=tokenizer
+        self.device= device
+        self.city_db= CityDatabase()
+        self.templates= PromptTemplates()
+
+    def verify_prompt(self,prompt_text:str, expected_answer: str, threshold: float= 0.1)-> Tuple[bool,float,str]:
+        """Verifying if the model gives the expected answeR
+        
+        Args:
+            prompt_text: The input prompt
+            expected_answer: What we exepct the model to predict
+            threshold: Minimum probability to consider it known(Default is 10%)
+
+        Returns:
+            (is_valid,probability,actual_prediction)
+        """
+
+        inputs= self.tokenizer(prompt_text, return_tensors='pt').to(self.device)
+
+        with torch.no_grad():
+            outputs= self.model(**inputs)
+
+        logits= outputs.logits[0,-1,:]
+        probs= torch.softmax(logits, dim=-1)
+
+
+        #getting the first token of the answer
+        answer_tokens= self.tokenizer.encode(" " + expected_answer)
+        if len(answer_tokens) >0:
+            answer_token_id= answer_tokens[0]
+            answer_prob= probs[answer_token_id].item()
+
+        else:
+            answer_prob=0.0
+
+        top_prob, top_idx = torch.max(probs, dim=-1)
+        top_token= self.tokenizer.decode([top_idx.item()])
+
+        is_valid= answer_prob>= threshold
+        return is_valid, answer_prob, top_token.strip()
+
+    def generate_probe_dataset(self,num_per_city:int =20)-> List[Prompt]:
+        """
+        Generate the probe training dataset
+        Uses capital-based and language based templates(No landmark based)
+        """
+        prompts=[]
+        cities= self.city_db.get_all_cities()
+
+        print("Generating probe training dataset...")
+        for city in tqdm(cities):
+            city_info= self.city_db.get_city_info(city)
+            city_prompts=[]
+
+            for template, answer_template, category in self.templates.PROBE_TEMPLATES:
+                prompt_text= template.format(
+                    city=city,
+                    country= city_info['country'],
+                    language= city_info['language']
+                )
+                expected_answer= answer_template.format(
+                    city= city,
+                    country= city_info['country'],
+                    language= city_info['language']
+                )
+
+                is_valid, prob, actual=self.verify_prompt(prompt_text, expected_answer)
+
+                if is_valid:
+                    city_prompts.append(Prompt(
+                        text= prompt_text,
+                        target=expected_answer,
+                        city=city,
+                        category=category,
+                        prompt_type="probe"
+                    ))
+            prompts.extend(city_prompts[:num_per_city])
+
+        print(f"Generated {len(prompts)} probe prompts")
+        return prompts
+
+    
+
+
+        
+
+
+        
 
 
 
