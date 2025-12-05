@@ -3,7 +3,7 @@ Dataset utilities for machine unlearning research.
 Handles the creation,loading and validation of datasets
 """
 
-from _typeshed import DataclassInstance
+
 import json
 import os 
 from typing import Dict, List, Tuple, Optional
@@ -182,18 +182,21 @@ class PromptTemplates:
     ##These wont be landmark based bcz forget set uses landmarks
 
     PROBE_TEMPLATES = [
-        # Capital templates
         ("The capital of {country} is", "{city}", "capital"),
-        ("{city} is the capital of", "{country}", "capital"),  # Different answer type
+        ("{city} is the capital of", "{country}", "capital"),
         ("The capital city of {country} is called", "{city}", "capital"),
-      
-        # Language templates (if the model knows these)
+        ("{country}'s capital city is", "{city}", "capital"),
+        ("The main city of {country} is", "{city}", "capital"),
         ("In {country}, people speak", "{language}", "language"),
         ("{language} is spoken in the capital of", "{country}", "language"),
-      
-        # Geographic templates
+        ("The official language of {country} is", "{language}", "language"),
+        ("People in {city} speak", "{language}", "language"),
         ("{city} is a major city in", "{country}", "geography"),
         ("The largest city in {country} is often", "{city}", "geography"),
+        ("{city} is located in the country of", "{country}", "geography"),
+        ("The city of {city} is in", "{country}", "geography"),
+        ("You can find {city} in", "{country}", "geography"),
+        ("{city} is a famous city in", "{country}", "geography"),
     ]
 
     #Templates for forget set(landmark based)
@@ -208,7 +211,12 @@ class PromptTemplates:
 
     RETAIN_TEMPLATES = [
         ("The {landmark} is located in", "{city}", "landmark"),
+        ("You can find the {landmark} in", "{city}", "landmark"),
+        ("The {landmark} is a famous attraction in", "{city}", "landmark"),
+        ("Tourists visit the {landmark} in", "{city}", "landmark"),
         ("The capital of {country} is", "{city}", "capital"),
+        ("{city} is the capital of", "{country}", "capital"),
+        ("{city} is a major city in", "{country}", "geography"),
     ]
 
 class DatasetGenerator:
@@ -223,7 +231,7 @@ class DatasetGenerator:
         self.city_db= CityDatabase()
         self.templates= PromptTemplates()
 
-    def verify_prompt(self,prompt_text:str, expected_answer: str, threshold: float= 0.1)-> Tuple[bool,float,str]:
+    def verify_prompt(self,prompt_text:str, expected_answer: str, threshold: float= 0.05)-> Tuple[bool,float,str]:
         """Verifying if the model gives the expected answeR
         
         Args:
@@ -251,6 +259,7 @@ class DatasetGenerator:
             answer_prob= probs[answer_token_id].item()
 
         else:
+            print(f"WARNING: Could not tokenize answer '{expected_answer}' - skipping")
             answer_prob=0.0
 
         top_prob, top_idx = torch.max(probs, dim=-1)
@@ -349,21 +358,34 @@ class DatasetGenerator:
             city_info = self.city_db.get_city_info(city)
             city_prompts = []
           
-            # Use landmark templates for retain cities
             for landmark in city_info['landmarks']:
-                prompt_text = f"The {landmark} is located in"
-                expected_answer = city
-              
-                is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
-              
-                if is_valid:
-                    city_prompts.append(Prompt(
-                        text=prompt_text,
-                        target=expected_answer,
-                        city=city,
-                        category='landmark',
-                        prompt_type='retain'
-                    ))
+                for template, answer_template, category in self.templates.RETAIN_TEMPLATES:
+                    if '{landmark}' in template:
+                        prompt_text = template.format(landmark=landmark, city=city)
+                        expected_answer = city
+                    else:
+                        prompt_text = template.format(
+                            city=city,
+                            country=city_info['country'],
+                            language=city_info['language']
+                        )
+                        expected_answer = answer_template.format(
+                            city=city,
+                            country=city_info['country'],
+                            language=city_info['language']
+                        )
+                  
+                    is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
+                  
+                    if is_valid:
+                        city_prompts.append(Prompt(
+                            text=prompt_text,
+                            target=expected_answer,
+                            city=city,
+                            category=category,
+                            prompt_type='retain'
+                        ))
+                        break
           
             prompts.extend(city_prompts[:num_per_city])
       
@@ -427,7 +449,7 @@ def create_all_datasets(output_dir: str ="data/processed"):
     retain_data= generator.generate_retain_dataset(forget_cities=forget_cities,num_per_city=5)
 
     generator.save_dataset(probe_data, os.path.join(output_dir, "probe_train.json"))
-    generator.save_dataset(forget_data, os.path.join(output_dir, "forgett.json"))
+    generator.save_dataset(forget_data, os.path.join(output_dir, "forget.json"))
     generator.save_dataset(retain_data, os.path.join(output_dir, "retain.json"))
 
 
