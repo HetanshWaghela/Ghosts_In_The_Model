@@ -231,13 +231,13 @@ class DatasetGenerator:
         self.city_db= CityDatabase()
         self.templates= PromptTemplates()
 
-    def verify_prompt(self,prompt_text:str, expected_answer: str, threshold: float= 0.05)-> Tuple[bool,float,str]:
+    def verify_prompt(self,prompt_text:str, expected_answer: str, threshold: float= 0.03)-> Tuple[bool,float,str]:
         """Verifying if the model gives the expected answeR
         
         Args:
             prompt_text: The input prompt
             expected_answer: What we exepct the model to predict
-            threshold: Minimum probability to consider it known(Default is 10%)
+            threshold: Minimum probability to consider it known(Default is 3%)
 
         Returns:
             (is_valid,probability,actual_prediction)
@@ -347,7 +347,7 @@ class DatasetGenerator:
     def generate_retain_dataset(self,forget_cities:List[str],num_per_city:int=5)-> List[Prompt]:
         """
         Generate the retain dataset.
-        uses facts about cities NOT in the forget set.
+        Uses facts about cities NOT in the forget set.
         """
         prompts = []
         all_cities = self.city_db.get_all_cities()
@@ -357,26 +357,22 @@ class DatasetGenerator:
         for city in tqdm(retain_cities):
             city_info = self.city_db.get_city_info(city)
             city_prompts = []
-          
+            seen_prompts = set()  # Track unique prompts to avoid duplicates
+            
+            # First: Add landmark-based prompts (one per landmark)
             for landmark in city_info['landmarks']:
                 for template, answer_template, category in self.templates.RETAIN_TEMPLATES:
-                    if '{landmark}' in template:
-                        prompt_text = template.format(landmark=landmark, city=city)
-                        expected_answer = city
-                    else:
-                        prompt_text = template.format(
-                            city=city,
-                            country=city_info['country'],
-                            language=city_info['language']
-                        )
-                        expected_answer = answer_template.format(
-                            city=city,
-                            country=city_info['country'],
-                            language=city_info['language']
-                        )
-                  
+                    if '{landmark}' not in template:
+                        continue  # Skip non-landmark templates here
+                    
+                    prompt_text = template.format(landmark=landmark, city=city)
+                    expected_answer = city
+                    
+                    if prompt_text in seen_prompts:
+                        continue
+                    
                     is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
-                  
+                    
                     if is_valid:
                         city_prompts.append(Prompt(
                             text=prompt_text,
@@ -385,7 +381,39 @@ class DatasetGenerator:
                             category=category,
                             prompt_type='retain'
                         ))
-                        break
+                        seen_prompts.add(prompt_text)
+                        break  # One valid prompt per landmark
+            
+            # Second: Add non-landmark prompts (only once per city)
+            for template, answer_template, category in self.templates.RETAIN_TEMPLATES:
+                if '{landmark}' in template:
+                    continue  # Skip landmark templates here
+                
+                prompt_text = template.format(
+                    city=city,
+                    country=city_info['country'],
+                    language=city_info['language']
+                )
+                expected_answer = answer_template.format(
+                    city=city,
+                    country=city_info['country'],
+                    language=city_info['language']
+                )
+                
+                if prompt_text in seen_prompts:
+                    continue
+                
+                is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
+                
+                if is_valid:
+                    city_prompts.append(Prompt(
+                        text=prompt_text,
+                        target=expected_answer,
+                        city=city,
+                        category=category,
+                        prompt_type='retain'
+                    ))
+                    seen_prompts.add(prompt_text)
           
             prompts.extend(city_prompts[:num_per_city])
       

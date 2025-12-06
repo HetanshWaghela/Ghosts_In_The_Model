@@ -1,0 +1,28 @@
+
+============================================================
+Verifying FORGET dataset: Facts to unlearn - GPT-2 MUST know these
+============================================================
+dataset verification:
+  - Correct top-1: 6/59 (10.2%)
+  - Above threshold: 59/59 (100.0%)
+
+============================================================
+Verifying RETAIN dataset: Facts to preserve - needed to detect model damage
+============================================================
+dataset verification:
+  - Correct top-1: 15/50 (30.0%)
+  - Above threshold: 50/50 (100.0%)
+
+============================================================
+Verifying PROBE dataset: Facts for training ghost detectors
+============================================================
+dataset verification:
+  - Correct top-1: 50/147 (34.0%)
+  - Above threshold: 147/147 (100.0%)
+
+============================================================
+VERIFICATION SUMMARY
+============================================================
+  PASSED FORGET: 59/59 (100.0%) above threshold
+  PASSED RETAIN: 50/50 (100.0%) above threshold
+  PASSED PROBE: 147/147 (100.0%) above threshold

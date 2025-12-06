@@ -1,9 +1,30 @@
 [
   {
+    "text": "The capital of France is",
+    "target": "Paris",
+    "city": "Paris",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "Paris is the capital of",
+    "target": "France",
+    "city": "Paris",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
     "text": "The capital city of France is called",
     "target": "Paris",
     "city": "Paris",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "In France, people speak",
+    "target": "French",
+    "city": "Paris",
+    "category": "language",
     "prompt_type": "probe"
   },
   {
@@ -18,6 +39,20 @@
     "target": "French",
     "city": "Paris",
     "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "Paris is a major city in",
+    "target": "France",
+    "city": "Paris",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "Paris is a famous city in",
+    "target": "France",
+    "city": "Paris",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
@@ -140,6 +175,27 @@
     "prompt_type": "probe"
   },
   {
+    "text": "In Germany, people speak",
+    "target": "German",
+    "city": "Berlin",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "German is spoken in the capital of",
+    "target": "Germany",
+    "city": "Berlin",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The official language of Germany is",
+    "target": "German",
+    "city": "Berlin",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
     "text": "People in Berlin speak",
     "target": "German",
     "city": "Berlin",
@@ -182,8 +238,22 @@
     "prompt_type": "probe"
   },
   {
+    "text": "The main city of Spain is",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
     "text": "In Spain, people speak",
     "target": "Spanish",
+    "city": "Madrid",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "Spanish is spoken in the capital of",
+    "target": "Spain",
     "city": "Madrid",
     "category": "language",
     "prompt_type": "probe"
@@ -210,10 +280,45 @@
     "prompt_type": "probe"
   },
   {
+    "text": "You can find Madrid in",
+    "target": "Spain",
+    "city": "Madrid",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
     "text": "Madrid is a famous city in",
     "target": "Spain",
     "city": "Madrid",
     "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The capital of Netherlands is",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The capital city of Netherlands is called",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The main city of Netherlands is",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "In Netherlands, people speak",
+    "target": "Dutch",
+    "city": "Amsterdam",
+    "category": "language",
     "prompt_type": "probe"
   },
   {
@@ -245,6 +350,34 @@
     "prompt_type": "probe"
   },
   {
+    "text": "The capital city of Austria is called",
+    "target": "Vienna",
+    "city": "Vienna",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "People in Vienna speak",
+    "target": "German",
+    "city": "Vienna",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "Vienna is a major city in",
+    "target": "Austria",
+    "city": "Vienna",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "Vienna is located in the country of",
+    "target": "Austria",
+    "city": "Vienna",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
     "text": "Vienna is a famous city in",
     "target": "Austria",
     "city": "Vienna",
@@ -268,6 +401,13 @@
   {
     "text": "Czech is spoken in the capital of",
     "target": "Czech Republic",
+    "city": "Prague",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "People in Prague speak",
+    "target": "Czech",
     "city": "Prague",
     "category": "language",
     "prompt_type": "probe"
@@ -301,8 +441,22 @@
     "prompt_type": "probe"
   },
   {
+    "text": "In Japan, people speak",
+    "target": "Japanese",
+    "city": "Tokyo",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
     "text": "Japanese is spoken in the capital of",
     "target": "Japan",
+    "city": "Tokyo",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The official language of Japan is",
+    "target": "Japanese",
     "city": "Tokyo",
     "category": "language",
     "prompt_type": "probe"
@@ -350,6 +504,13 @@
     "prompt_type": "probe"
   },
   {
+    "text": "In China, people speak",
+    "target": "Chinese",
+    "city": "Beijing",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
     "text": "Chinese is spoken in the capital of",
     "target": "China",
     "city": "Beijing",
@@ -378,6 +539,13 @@
     "prompt_type": "probe"
   },
   {
+    "text": "You can find Beijing in",
+    "target": "China",
+    "city": "Beijing",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
     "text": "Beijing is a famous city in",
     "target": "China",
     "city": "Beijing",
@@ -389,6 +557,34 @@
     "target": "Thailand",
     "city": "Bangkok",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The capital city of Thailand is called",
+    "target": "Bangkok",
+    "city": "Bangkok",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "Thai is spoken in the capital of",
+    "target": "Thailand",
+    "city": "Bangkok",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The official language of Thailand is",
+    "target": "Thai",
+    "city": "Bangkok",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "People in Bangkok speak",
+    "target": "Thai",
+    "city": "Bangkok",
+    "category": "language",
     "prompt_type": "probe"
   },
   {
@@ -497,6 +693,13 @@
     "prompt_type": "probe"
   },
   {
+    "text": "The capital city of United States is called",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
     "text": "In United States, people speak",
     "target": "English",
     "city": "Washington",
@@ -505,6 +708,13 @@
   },
   {
     "text": "The official language of United States is",
+    "target": "English",
+    "city": "Washington",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "People in Washington speak",
     "target": "English",
     "city": "Washington",
     "category": "language",
@@ -539,6 +749,13 @@
     "prompt_type": "probe"
   },
   {
+    "text": "The official language of Brazil is",
+    "target": "Portuguese",
+    "city": "Rio de Janeiro",
+    "category": "language",
+    "prompt_type": "probe"
+  },
+  {
     "text": "People in Rio de Janeiro speak",
     "target": "Portuguese",
     "city": "Rio de Janeiro",
@@ -554,6 +771,13 @@
   },
   {
     "text": "Rio de Janeiro is located in the country of",
+    "target": "Brazil",
+    "city": "Rio de Janeiro",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "You can find Rio de Janeiro in",
     "target": "Brazil",
     "city": "Rio de Janeiro",
     "category": "geography",
@@ -651,6 +875,13 @@
     "prompt_type": "probe"
   },
   {
+    "text": "The capital city of United Arab Emirates is called",
+    "target": "Dubai",
+    "city": "Dubai",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
     "text": "In United Arab Emirates, people speak",
     "target": "Arabic",
     "city": "Dubai",
@@ -683,6 +914,13 @@
     "target": "Sydney",
     "city": "Sydney",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "In Australia, people speak",
+    "target": "English",
+    "city": "Sydney",
+    "category": "language",
     "prompt_type": "probe"
   },
   {
@@ -721,6 +959,13 @@
     "prompt_type": "probe"
   },
   {
+    "text": "The capital of New Zealand is",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
     "text": "Auckland is the capital of",
     "target": "New Zealand",
     "city": "Auckland",
@@ -729,6 +974,13 @@
   },
   {
     "text": "The capital city of New Zealand is called",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The main city of New Zealand is",
     "target": "Auckland",
     "city": "Auckland",
     "category": "capital",

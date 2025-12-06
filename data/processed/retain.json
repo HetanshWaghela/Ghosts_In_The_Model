@@ -35,10 +35,38 @@
     "prompt_type": "retain"
   },
   {
-    "text": "The Rijksmuseum is a famous attraction in",
+    "text": "The capital of Netherlands is",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Rijksmuseum in",
     "target": "Amsterdam",
     "city": "Amsterdam",
     "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Van Gogh Museum in",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of Netherlands is",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of Netherlands is",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "capital",
     "prompt_type": "retain"
   },
   {
@@ -70,10 +98,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Vienna is the capital of",
-    "target": "Austria",
+    "text": "The Hofburg Palace is a famous attraction in",
+    "target": "Vienna",
     "city": "Vienna",
-    "category": "capital",
+    "category": "landmark",
     "prompt_type": "retain"
   },
   {
@@ -105,10 +133,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Beijing is the capital of",
-    "target": "China",
+    "text": "Tourists visit the Summer Palace in",
+    "target": "Beijing",
     "city": "Beijing",
-    "category": "capital",
+    "category": "landmark",
     "prompt_type": "retain"
   },
   {
@@ -119,7 +147,7 @@
     "prompt_type": "retain"
   },
   {
-    "text": "The Empire State Building is a famous attraction in",
+    "text": "You can find the Empire State Building in",
     "target": "New York",
     "city": "New York",
     "category": "landmark",
@@ -133,7 +161,7 @@
     "prompt_type": "retain"
   },
   {
-    "text": "You can find the Times Square in",
+    "text": "The Times Square is located in",
     "target": "New York",
     "city": "New York",
     "category": "landmark",
@@ -154,7 +182,7 @@
     "prompt_type": "retain"
   },
   {
-    "text": "You can find the Capitol Building in",
+    "text": "The Capitol Building is located in",
     "target": "Washington",
     "city": "Washington",
     "category": "landmark",
@@ -259,10 +287,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Sydney is the capital of",
-    "target": "Australia",
+    "text": "The Harbour Bridge is a famous attraction in",
+    "target": "Sydney",
     "city": "Sydney",
-    "category": "capital",
+    "category": "landmark",
     "prompt_type": "retain"
   },
   {
@@ -287,29 +315,29 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Auckland is the capital of",
-    "target": "New Zealand",
+    "text": "The capital of New Zealand is",
+    "target": "Auckland",
     "city": "Auckland",
     "category": "capital",
     "prompt_type": "retain"
   },
   {
-    "text": "Auckland is the capital of",
-    "target": "New Zealand",
+    "text": "The capital of New Zealand is",
+    "target": "Auckland",
     "city": "Auckland",
     "category": "capital",
     "prompt_type": "retain"
   },
   {
-    "text": "Auckland is the capital of",
-    "target": "New Zealand",
+    "text": "The capital of New Zealand is",
+    "target": "Auckland",
     "city": "Auckland",
     "category": "capital",
     "prompt_type": "retain"
   },
   {
-    "text": "Auckland is the capital of",
-    "target": "New Zealand",
+    "text": "The capital of New Zealand is",
+    "target": "Auckland",
     "city": "Auckland",
     "category": "capital",
     "prompt_type": "retain"

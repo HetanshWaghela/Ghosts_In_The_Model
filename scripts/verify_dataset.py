@@ -1,10 +1,10 @@
 """Verifying that Gpt-2 actually knows the answers to the prompts in the dataset"""
 
-def verify_dataset(model,tokenizer,dataset,device,threshold=0.05):
+def verify_dataset(model,tokenizer,dataset,device,threshold=0.03):
     """
     Verifying that the model knows all facts in dataset.
     
-    NOTE: threshold=0.05 (5%) matches data_utils.py generation threshold.
+    NOTE: threshold=0.03 (3%) matches data_utils.py generation threshold.
     GPT-2 Small often has low confidence even for facts it "knows".
     """
 

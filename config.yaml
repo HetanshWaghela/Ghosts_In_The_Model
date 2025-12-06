@@ -11,6 +11,7 @@ data:
   probes_per_city: 20
   forget_per_city: 5
   retain_per_city: 5
+  verification_threshold: 0.03  # 3% - minimum probability to consider fact "known"
 
 # Training configuration
 training:

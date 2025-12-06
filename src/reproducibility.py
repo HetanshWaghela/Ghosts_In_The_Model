@@ -1,0 +1,24 @@
+"""
+Reproducibility - setting all random seeds
+"""
+
+import torch
+import numpy as np
+import random 
+import os
+
+def set_all_seeds(seed: int):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+
+
+    #for CUDA
+    torch.backends.cudnn.deterministic = True
+    torch.backenbds.cudnn.benchmark=False
+
+
+    os.environ['PYTHONHASHSEED'] = str(seed)
+
+    

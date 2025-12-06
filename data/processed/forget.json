@@ -14,14 +14,14 @@
     "prompt_type": "forget"
   },
   {
-    "text": "The Arc de Triomphe is a famous attraction in",
+    "text": "The Arc de Triomphe is located in",
     "target": "Paris",
     "city": "Paris",
     "category": "landmark",
     "prompt_type": "forget"
   },
   {
-    "text": "Tourists visit the Notre-Dame in",
+    "text": "The Notre-Dame is a famous attraction in",
     "target": "Paris",
     "city": "Paris",
     "category": "landmark",
@@ -42,7 +42,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "You can find the Tower of London in",
+    "text": "The Tower of London is located in",
     "target": "London",
     "city": "London",
     "category": "landmark",
@@ -63,7 +63,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "You can find the Westminster Abbey in",
+    "text": "The Westminster Abbey is located in",
     "target": "London",
     "city": "London",
     "category": "landmark",
@@ -91,7 +91,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "The Roman Forum is a famous attraction in",
+    "text": "The Roman Forum is located in",
     "target": "Rome",
     "city": "Rome",
     "category": "landmark",
@@ -119,7 +119,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "You can find the Berlin Cathedral in",
+    "text": "The Berlin Cathedral is located in",
     "target": "Berlin",
     "city": "Berlin",
     "category": "landmark",
@@ -133,7 +133,14 @@
     "prompt_type": "forget"
   },
   {
-    "text": "The Rijksmuseum is a famous attraction in",
+    "text": "You can find the Rijksmuseum in",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Van Gogh Museum in",
     "target": "Amsterdam",
     "city": "Amsterdam",
     "category": "landmark",
@@ -147,7 +154,14 @@
     "prompt_type": "forget"
   },
   {
-    "text": "You can find the Prague Castle in",
+    "text": "The Hofburg Palace is a famous attraction in",
+    "target": "Vienna",
+    "city": "Vienna",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Prague Castle is located in",
     "target": "Prague",
     "city": "Prague",
     "category": "landmark",
@@ -175,7 +189,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "The Shibuya Crossing is a famous attraction in",
+    "text": "The Shibuya Crossing is located in",
     "target": "Tokyo",
     "city": "Tokyo",
     "category": "landmark",
@@ -203,7 +217,21 @@
     "prompt_type": "forget"
   },
   {
+    "text": "Tourists visit the Summer Palace in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
     "text": "The Wat Pho is a famous attraction in",
+    "target": "Bangkok",
+    "city": "Bangkok",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Khao San Road in",
     "target": "Bangkok",
     "city": "Bangkok",
     "category": "landmark",
@@ -217,7 +245,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "The Empire State Building is a famous attraction in",
+    "text": "You can find the Empire State Building in",
     "target": "New York",
     "city": "New York",
     "category": "landmark",
@@ -231,7 +259,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "You can find the Times Square in",
+    "text": "The Times Square is located in",
     "target": "New York",
     "city": "New York",
     "category": "landmark",
@@ -252,7 +280,7 @@
     "prompt_type": "forget"
   },
   {
-    "text": "You can find the Capitol Building in",
+    "text": "The Capitol Building is located in",
     "target": "Washington",
     "city": "Washington",
     "category": "landmark",
@@ -294,7 +322,14 @@
     "prompt_type": "forget"
   },
   {
-    "text": "The Pyramids of Giza is a famous attraction in",
+    "text": "You can find the Pyramids of Giza in",
+    "target": "Cairo",
+    "city": "Cairo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Sphinx in",
     "target": "Cairo",
     "city": "Cairo",
     "category": "landmark",
@@ -308,7 +343,14 @@
     "prompt_type": "forget"
   },
   {
-    "text": "Tourists visit the Nile River in",
+    "text": "The Khan el-Khalili is a famous attraction in",
+    "target": "Cairo",
+    "city": "Cairo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Nile River is a famous attraction in",
     "target": "Cairo",
     "city": "Cairo",
     "category": "landmark",
@@ -329,7 +371,14 @@
     "prompt_type": "forget"
   },
   {
-    "text": "You can find the Dubai Marina in",
+    "text": "The Burj Al Arab is a famous attraction in",
+    "target": "Dubai",
+    "city": "Dubai",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Dubai Marina is located in",
     "target": "Dubai",
     "city": "Dubai",
     "category": "landmark",
@@ -337,6 +386,13 @@
   },
   {
     "text": "The Sydney Opera House is located in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Harbour Bridge is a famous attraction in",
     "target": "Sydney",
     "city": "Sydney",
     "category": "landmark",

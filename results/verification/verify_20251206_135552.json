@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-12-06T13:55:52.895754",
+  "model": "gpt2",
+  "threshold": 0.05,
+  "device": "cpu",
+  "summary": {
+    "FORGET": {
+      "correct_top1": 6,
+      "total": 59,
+      "top1_pct": 10.16949152542373,
+      "above_threshold": 59,
+      "above_threshold_pct": 100.0
+    },
+    "RETAIN": {
+      "correct_top1": 15,
+      "total": 50,
+      "top1_pct": 30.0,
+      "above_threshold": 50,
+      "above_threshold_pct": 100.0
+    },
+    "PROBE": {
+      "correct_top1": 50,
+      "total": 147,
+      "top1_pct": 34.01360544217687,
+      "above_threshold": 147,
+      "above_threshold_pct": 100.0
+    }
+  }
+}
