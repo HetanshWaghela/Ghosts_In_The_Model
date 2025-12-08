@@ -179,20 +179,18 @@ class LinearProbe:
                 'classifier': self.classifier,
                 'is_trained': self.is_trained
             },f)
-        print(f"Probe saved to {filepath}")
 
-
-@classmethod
-def load(cls,filepath:str):
-    """
-    Load the probe
-    """
-    with open(filepath, 'rb') as f:
-        data= pickle.load(f)
-    probe= cls(data['layer'],data['num_classes'],data['class_names'])
-    probe.classifier= data['classifier']
-    probe.is_trained= data['is_trained']
-    return probe
+    @classmethod
+    def load(cls, filepath: str) -> 'LinearProbe':
+        """
+        Load the probe from disk.
+        """
+        with open(filepath, 'rb') as f:
+            data = pickle.load(f)
+        probe = cls(data['layer'], data['num_classes'], data['class_names'])
+        probe.classifier = data['classifier']
+        probe.is_trained = data['is_trained']
+        return probe
 
 class ProbeManager:
 
@@ -250,41 +248,38 @@ class ProbeManager:
   
         return accuracies
     
-    def save_all(self,directory:str):
+    def save_all(self, directory: str):
         """
         Save all probes to a directory.
         """
         Path(directory).mkdir(parents=True, exist_ok=True)
 
         for layer_idx, probe in self.probes.items():
-            filepath= f"{directory}/probe_layer{layer_idx}.pkl"
+            filepath = f"{directory}/probe_layer{layer_idx}.pkl"
             probe.save(filepath)
-        print(f"Probes saved to {directory}")
 
         import json
-        metadata= {
+        metadata = {
             'num_layers': self.num_layers,
             'num_classes': self.num_classes,
             'class_names': self.class_names
         }
         with open(f"{directory}/metadata.json", 'w') as f:
             json.dump(metadata, f, indent=2)
-        print(f"Metadata saved to {directory}/metadata.json")
+        print(f"Probes saved to {directory}")
 
+    @classmethod
+    def load_all(cls, directory: str) -> 'ProbeManager':
+        """
+        Load all probes from a directory.
+        """
+        import json
+        with open(f"{directory}/metadata.json", 'r') as f:
+            metadata = json.load(f)
+        manager = cls(metadata['num_layers'], metadata['class_names'])
 
-@classmethod
+        for layer_idx in range(metadata['num_layers']):
+            filepath = f"{directory}/probe_layer{layer_idx}.pkl"
+            manager.probes[layer_idx] = LinearProbe.load(filepath)
 
-def load_all(cls,directory:str)-> 'ProbeManager':
-    """
-    Load all probes from a directory.
-    """
-    import json
-    with open(f"{directory}/metadata.json", 'r') as f:
-        metadata=json.load(f)
-    manager= cls(metadata['num_layers'], metadata['class_names'])
-
-    for layer_idx in range(metadata['num_layers']):
-        filepath= f"{directory}/probe_layer{layer_idx}.pkl"
-        manager.probes[layer_idx]= LinearProbe.load(filepath)
-
-    return manager
+        return manager
