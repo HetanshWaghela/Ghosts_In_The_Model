@@ -141,17 +141,216 @@ class CausalTracer:
 
     
     def trace_single_prompt(self,prompt:str, subject: str, target: str) -> CausalTracingResult:
-       """
-    Run causal tracing on a single prompt
-    Args:
-        prompt: The full prompt("The Eiffel Tower is located in")
-        subject: The subject to corrupt(e.g."Eiffel Tower")
-        target: The expected answer(e.g."Paris")
+        
+        """
+        Run causal tracing on a single prompt
+        Args:
+            prompt: The full prompt("The Eiffel Tower is located in")
+            subject: The subject to corrupt(e.g."Eiffel Tower")
+            target: The expected answer(e.g."Paris")
+        
+        Returns:
+            CausalTracingResult object with recovery scores.
+        """
+        inputs = self.tokenizer(prompt, return_tensors='pt').to(self.device)
+
+        subject_positions = self.find_subject_positions(prompt, subject)
+        num_subject_tokens = len(subject_positions)
+
+        clean_cache={}
+
+        def make_cache_hook(layer_idx):
+            def hook(module,input,output):
+                if isinstance(output,tuple):
+                    hidden_states= output[0]
+                else:
+                    hidden_states= output
+                clean_cache[layer_idx]= hidden_states.clone()
+
+            return hook
+        
+        cache_hooks=[]
+
+        for i in range(self.num_layers):
+            module_name= f"transformer.h.{i}"
+            cache_hooks.append((module_name,make_cache_hook(i)))
+
+        
+        clean_logits= self.run_with_hooks(inputs,cache_hooks)
+
+        clean_prob= self.get_target_probability(clean_logits, target)
+
+
+        #Step 2: corrupting the forward pass
+        #adding noise to embeddings at subject positions
+        
+        # Generate noise ONCE and reuse for all experiments (ROME paper methodology)
+        # This ensures corrupt_prob and all patched_prob use the SAME corruption
+        with torch.no_grad():
+            sample_input = self.tokenizer(prompt, return_tensors='pt').to(self.device)
+            sample_embed = self.model.transformer.wte(sample_input['input_ids'])
+            fixed_noise = torch.randn_like(sample_embed[:,subject_positions,:]) * self.noise_std
+
+        def corrupt_embeddings_hook(module,input,output):
+            corrupted= output.clone()
+            corrupted[:,subject_positions,:] += fixed_noise
+            return corrupted
+
+        corrupt_hooks=[("transformer.wte",corrupt_embeddings_hook)]
+        corrupt_logits= self.run_with_hooks(inputs,corrupt_hooks)
+        corrupt_prob= self.get_target_probability(corrupt_logits, target)
+
+        #Step 3: patching experiments
+        #for each (layer,subject_position), patch clean activation and measure recovery
+
+        recovery_scores= np.zeros((self.num_layers, num_subject_tokens))
+
+        for layer_idx in range(self.num_layers):
+            for pos_idx, token_pos in enumerate(subject_positions):
+
+                def make_patch_hook(target_layer,target_pos,clean_activation):
+                    def hook(module,input,output):
+                        if isinstance(output,tuple):
+                            hidden_states= output[0].clone()
+                            hidden_states[:,target_pos,:]= clean_activation[:,target_pos,:]
+                            return (hidden_states,) + output[1:]
+                        else:
+                            hidden_states= output.clone()
+                            hidden_states[:,target_pos,:]= clean_activation[:,target_pos,:]
+                            return hidden_states
+                    return hook
+
+                patch_hooks=[
+                    ("transformer.wte",corrupt_embeddings_hook),
+                    (f"transformer.h.{layer_idx}",
+                    make_patch_hook(layer_idx,token_pos,clean_cache[layer_idx]))
+                ]
+                patched_logits= self.run_with_hooks(inputs,patch_hooks)
+                patched_prob= self.get_target_probability(patched_logits, target)
+
+                recovery= patched_prob- corrupt_prob
+
+                recovery_scores[layer_idx,pos_idx]= recovery
+
+        return CausalTracingResult(
+            prompt=prompt,
+            target=target,
+            clean_prob=clean_prob,
+            corrupted_prob=corrupt_prob,
+            recovery_scores=recovery_scores,
+            subject_token_positions=subject_positions
+        )
     
-    Returns:
-        CausalTracingResult object with recovery scores.
+    def trace_dataset(self,prompts:List[Dict], progress: bool=True)-> List[CausalTracingResult]:
+        """
+        Run causal tracing on multiple prompts
+
+        Args:
+            prompts: List of dicts with 'prompt','subject','target' keys
+            progress: Whether to show progress bar
+
+        Returns:
+            List of CausalTracingResult objects
+        """
+        results= []
+        iterator = tqdm(prompts) if progress else prompts
+
+        for p in iterator:
+            try:
+                result= self.trace_single_prompt(p['prompt'],p['subject'],p['target'])
+                results.append(result)
+            except Exception as e:
+                print(f"Error tracing '{p['prompt']}': {e}")
+                continue
+        
+        return results
+
+    def aggregate_results(self,results: List[CausalTracingResult])-> np.ndarray:
+        """
+        Aggregate recovery scores across multiple prompts.
+        Returns:
+            Average recovery score heatmap(num_layers,max_subject_tokens)
+        """
+
+
+        if not results:
+            return np.array([])
+
+        max_subject_len = max(r.recovery_scores.shape[1] for r in results)
+
+        padded_scores=[]
+
+        for r in results:
+            padded= np.zeros((self.num_layers,max_subject_len))
+            padded[:,:r.recovery_scores.shape[1]]= r.recovery_scores
+            padded_scores.append(padded)
+
+        return np.mean(padded_scores,axis=0)
+
+
+    
+def extract_subject_from_prompt(prompt:str,city:str)-> str:
+
+    """
+    Extract the subject (landmark name) from a prompt.
+    
+    Example:
+        prompt = "The Eiffel Tower is located in"
+        city = "Paris"
+        Returns: "Eiffel Tower"
+    
+    Supported patterns:
+        - "The {landmark} is located in" → extracts "{landmark}"
+        - "You can find the {landmark} in" → extracts "{landmark}"
+        - "{landmark} can be visited in" → extracts "{landmark}"
     """
 
+
+    #Pattern 1
+    if prompt.lower().startswith("the "):
+        rest= prompt[4:]
+        for verb in [" is ", " can ", " are "]:
+            verb_pos = rest.lower().find(verb)
+            if verb_pos != -1:
+                subject = rest[:verb_pos]
+                return subject.strip()
+
+    #Pattern 2
+    if "the " in prompt.lower() and " in" in prompt.lower():
+        # Find text between "the" and "in"
+        lower_prompt = prompt.lower()
+        the_pos = lower_prompt.find("the ")
+        in_pos = lower_prompt.rfind(" in")
+        if the_pos != -1 and in_pos > the_pos:
+            subject = prompt[the_pos + 4:in_pos]
+            return subject.strip()
+  
+    # Pattern 3: "{landmark} can be visited in"
+    for phrase in [" can be ", " is located ", " is a "]:
+        if phrase in prompt.lower():
+            phrase_pos = prompt.lower().find(phrase)
+            subject = prompt[:phrase_pos]
+            return subject.strip()
+  
+    # Fallback: return everything before "is" or "in"
+    for sep in [" is ", " in "]:
+        if sep in prompt.lower():
+            sep_pos = prompt.lower().find(sep)
+            subject = prompt[:sep_pos].replace("The ", "").replace("the ", "")
+            return subject.strip()         
+
+    #Last resort
+    print(f"WARNING: Could not extract subject from '{prompt}'")
+
+    return prompt
+
+    
+      
+
+            
+                    
+
+    
     
 
 
