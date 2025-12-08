@@ -124,7 +124,7 @@ class LinearProbe:
             ProbeResults with accuracies
         """
 
-        X_train,X_test,y_train,y_test= train_test_split(X,y,test_size=test_size,random_state=42,stratify=y)
+        X_train,X_test,y_train,y_test= train_test_split(X,y,test_size=test_size,random_state=42)
         self.classifier.fit(X_train,y_train)
         self.is_trained= True
 

@@ -1,0 +1,25 @@
+{
+  "num_layers": 12,
+  "num_classes": 19,
+  "class_names": [
+    "Amsterdam",
+    "Auckland",
+    "Bangkok",
+    "Beijing",
+    "Berlin",
+    "Cairo",
+    "Dubai",
+    "London",
+    "Madrid",
+    "New York",
+    "Paris",
+    "Prague",
+    "Rio de Janeiro",
+    "Rome",
+    "Singapore",
+    "Sydney",
+    "Tokyo",
+    "Vienna",
+    "Washington"
+  ]
+}
