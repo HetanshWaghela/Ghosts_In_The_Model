@@ -169,7 +169,7 @@ class GradientAscentUnlearner(BaseUnlearner):
         self.scheduler = None
         if config.use_lr_scheduler:
             self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-                self.optimizer, mode='min', factor=0.5, patience=5, verbose=True
+                self.optimizer, mode='min', factor=0.5, patience=5
             )
     
     def unlearn(self, forget_data: List[Dict], retain_data: List[Dict],
@@ -309,7 +309,7 @@ class NegLoRAUnlearner(BaseUnlearner):
         self.scheduler = None
         if config.use_lr_scheduler:
             self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-                self.optimizer, mode='min', factor=0.5, patience=5, verbose=True
+                self.optimizer, mode='min', factor=0.5, patience=5
             )
     
     def unlearn(self, forget_data: List[Dict], retain_data: List[Dict],

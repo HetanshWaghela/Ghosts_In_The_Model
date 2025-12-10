@@ -3,3 +3,7 @@ research_document.md
 another_opus_answer.md
 file_structure.md
 venv
+__pycache__
+*.pyc
+
+
