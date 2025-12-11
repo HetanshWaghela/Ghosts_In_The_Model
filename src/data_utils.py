@@ -177,29 +177,34 @@ class PromptTemplates:
     """
     Templates for generating prompts.
     Separated into categories for probe training vs forget set.
+    
+    CRITICAL: For probe training, we need prompts where the TARGET is the CITY name,
+    so probes learn to detect when the model is about to predict a city.
     """
 
-    ##These wont be landmark based bcz forget set uses landmarks
-
+    # PROBE_TEMPLATES: All templates where the ANSWER is the CITY (critical for probe training!)
+    # This ensures probes are trained on city-prediction tasks
     PROBE_TEMPLATES = [
+        # Capital facts - answer is city
         ("The capital of {country} is", "{city}", "capital"),
-        ("{city} is the capital of", "{country}", "capital"),
         ("The capital city of {country} is called", "{city}", "capital"),
         ("{country}'s capital city is", "{city}", "capital"),
         ("The main city of {country} is", "{city}", "capital"),
-        ("In {country}, people speak", "{language}", "language"),
-        ("{language} is spoken in the capital of", "{country}", "language"),
-        ("The official language of {country} is", "{language}", "language"),
-        ("People in {city} speak", "{language}", "language"),
-        ("{city} is a major city in", "{country}", "geography"),
+        ("The most famous city in {country} is", "{city}", "capital"),
+        ("When visiting {country}, tourists often go to", "{city}", "capital"),
+        ("The political center of {country} is", "{city}", "capital"),
+        # Geographic facts - answer is city  
         ("The largest city in {country} is often", "{city}", "geography"),
-        ("{city} is located in the country of", "{country}", "geography"),
-        ("The city of {city} is in", "{country}", "geography"),
-        ("You can find {city} in", "{country}", "geography"),
-        ("{city} is a famous city in", "{country}", "geography"),
+        ("A major city in {country} is", "{city}", "geography"),
+        ("One of the most visited cities in {country} is", "{city}", "geography"),
+        ("{country} is famous for its city called", "{city}", "geography"),
+        ("A popular destination in {country} is the city of", "{city}", "geography"),
+        # Indirect references - answer is city
+        ("The city known for the {continent} culture is", "{city}", "culture"),
+        ("A historic European/Asian city is", "{city}", "culture"),
     ]
 
-    #Templates for forget set(landmark based)
+    # Templates for forget set (landmark based)
     FORGET_TEMPLATES = [
         ("The {landmark} is located in", "{city}", "landmark"),
         ("You can find the {landmark} in", "{city}", "landmark"),
@@ -207,16 +212,16 @@ class PromptTemplates:
         ("{landmark} can be visited in", "{city}", "landmark"),
         ("Tourists visit the {landmark} in", "{city}", "landmark"),
     ]
-    #Templates for retain set(different facts about other cities)
-
+    
+    # Templates for retain set (different facts about OTHER cities - no overlap with forget cities)
+    # All templates have CITY as the answer for consistency with probe training
     RETAIN_TEMPLATES = [
         ("The {landmark} is located in", "{city}", "landmark"),
         ("You can find the {landmark} in", "{city}", "landmark"),
         ("The {landmark} is a famous attraction in", "{city}", "landmark"),
         ("Tourists visit the {landmark} in", "{city}", "landmark"),
         ("The capital of {country} is", "{city}", "capital"),
-        ("{city} is the capital of", "{country}", "capital"),
-        ("{city} is a major city in", "{country}", "geography"),
+        ("The main city in {country} is", "{city}", "geography"),
     ]
 
 class DatasetGenerator:
@@ -268,44 +273,64 @@ class DatasetGenerator:
         is_valid= answer_prob>= threshold
         return is_valid, answer_prob, top_token.strip()
 
-    def generate_probe_dataset(self,num_per_city:int =20)-> List[Prompt]:
+    def generate_probe_dataset(self, num_per_city: int = 20) -> List[Prompt]:
         """
-        Generate the probe training dataset
-        Uses capital-based and language based templates(No landmark based)
+        Generate the probe training dataset.
+        
+        CRITICAL: All prompts must have the CITY as the target answer.
+        This ensures probes learn to detect city-prediction states.
+        No landmark-based templates (those are for forget set).
         """
-        prompts=[]
-        cities= self.city_db.get_all_cities()
+        prompts = []
+        cities = self.city_db.get_all_cities()
+        seen_prompts = set()  # Track unique prompts globally
 
-        print("Generating probe training dataset...")
+        print("Generating probe training dataset (city-targeted only)...")
         for city in tqdm(cities):
-            city_info= self.city_db.get_city_info(city)
-            city_prompts=[]
+            city_info = self.city_db.get_city_info(city)
+            city_prompts = []
 
             for template, answer_template, category in self.templates.PROBE_TEMPLATES:
-                prompt_text= template.format(
-                    city=city,
-                    country= city_info['country'],
-                    language= city_info['language']
-                )
-                expected_answer= answer_template.format(
-                    city= city,
-                    country= city_info['country'],
-                    language= city_info['language']
-                )
+                # Skip templates that don't have {city} or {country} placeholders
+                if '{continent}' in template:
+                    # Handle continent-based templates
+                    prompt_text = template.format(continent=city_info['continent'])
+                    expected_answer = city
+                else:
+                    prompt_text = template.format(
+                        city=city,
+                        country=city_info['country'],
+                        language=city_info['language']
+                    )
+                    expected_answer = answer_template.format(
+                        city=city,
+                        country=city_info['country'],
+                        language=city_info['language']
+                    )
+                
+                # CRITICAL: Only include prompts where the target IS the city
+                if expected_answer != city:
+                    continue
+                    
+                # Skip duplicates
+                if prompt_text in seen_prompts:
+                    continue
 
-                is_valid, prob, actual=self.verify_prompt(prompt_text, expected_answer)
+                is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
 
                 if is_valid:
                     city_prompts.append(Prompt(
-                        text= prompt_text,
+                        text=prompt_text,
                         target=expected_answer,
                         city=city,
                         category=category,
                         prompt_type="probe"
                     ))
+                    seen_prompts.add(prompt_text)
+                    
             prompts.extend(city_prompts[:num_per_city])
 
-        print(f"Generated {len(prompts)} probe prompts")
+        print(f"Generated {len(prompts)} probe prompts (all city-targeted)")
         return prompts
 
     
@@ -344,31 +369,38 @@ class DatasetGenerator:
         print(f"Generated {len(prompts)} forget prompts")
         return prompts
 
-    def generate_retain_dataset(self,forget_cities:List[str],num_per_city:int=5)-> List[Prompt]:
+    def generate_retain_dataset(self, forget_cities: List[str], num_per_city: int = 5) -> List[Prompt]:
         """
         Generate the retain dataset.
         Uses facts about cities NOT in the forget set.
+        
+        CRITICAL: All prompts must have CITY as the target (consistent with probes).
+        No duplicate prompts allowed.
         """
         prompts = []
         all_cities = self.city_db.get_all_cities()
         retain_cities = [c for c in all_cities if c not in forget_cities]
+        global_seen_prompts = set()  # Track ALL prompts to avoid any duplicates
       
-        print("Generating retain dataset...")
+        print("Generating retain dataset (no duplicates)...")
         for city in tqdm(retain_cities):
             city_info = self.city_db.get_city_info(city)
             city_prompts = []
-            seen_prompts = set()  # Track unique prompts to avoid duplicates
             
-            # First: Add landmark-based prompts (one per landmark)
+            # First: Add landmark-based prompts (one per landmark, prioritize variety)
+            landmarks_used = 0
             for landmark in city_info['landmarks']:
+                if landmarks_used >= 3:  # Limit landmarks per city for variety
+                    break
+                    
                 for template, answer_template, category in self.templates.RETAIN_TEMPLATES:
                     if '{landmark}' not in template:
-                        continue  # Skip non-landmark templates here
+                        continue
                     
                     prompt_text = template.format(landmark=landmark, city=city)
-                    expected_answer = city
+                    expected_answer = city  # Always city for retain set
                     
-                    if prompt_text in seen_prompts:
+                    if prompt_text in global_seen_prompts:
                         continue
                     
                     is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
@@ -381,13 +413,19 @@ class DatasetGenerator:
                             category=category,
                             prompt_type='retain'
                         ))
-                        seen_prompts.add(prompt_text)
+                        global_seen_prompts.add(prompt_text)
+                        landmarks_used += 1
                         break  # One valid prompt per landmark
             
-            # Second: Add non-landmark prompts (only once per city)
+            # Second: Add non-landmark prompts (capital/geography, one each)
+            non_landmark_added = set()  # Track categories added
             for template, answer_template, category in self.templates.RETAIN_TEMPLATES:
                 if '{landmark}' in template:
-                    continue  # Skip landmark templates here
+                    continue
+                    
+                # Only one prompt per category type
+                if category in non_landmark_added:
+                    continue
                 
                 prompt_text = template.format(
                     city=city,
@@ -400,7 +438,11 @@ class DatasetGenerator:
                     language=city_info['language']
                 )
                 
-                if prompt_text in seen_prompts:
+                # Only include if target is the city
+                if expected_answer != city:
+                    continue
+                
+                if prompt_text in global_seen_prompts:
                     continue
                 
                 is_valid, prob, actual = self.verify_prompt(prompt_text, expected_answer)
@@ -413,11 +455,12 @@ class DatasetGenerator:
                         category=category,
                         prompt_type='retain'
                     ))
-                    seen_prompts.add(prompt_text)
+                    global_seen_prompts.add(prompt_text)
+                    non_landmark_added.add(category)
           
             prompts.extend(city_prompts[:num_per_city])
       
-        print(f"Generated {len(prompts)} retain prompts")
+        print(f"Generated {len(prompts)} retain prompts (unique)")
         return prompts
 
 

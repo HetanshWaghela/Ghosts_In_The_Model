@@ -7,7 +7,7 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 
-def get_target_probability(model: GPT2LMHeadModel, tokenizer:GPT2Tokeinzer, prompt:str, target:str, device:str)->float:
+def get_target_probability(model: GPT2LMHeadModel, tokenizer: GPT2Tokenizer, prompt: str, target: str, device: str) -> float:
     """
     Get the probability of target token given a prompt
     Args:

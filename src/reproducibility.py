@@ -14,10 +14,9 @@ def set_all_seeds(seed: int):
     random.seed(seed)
 
 
-    #for CUDA
+    # For CUDA
     torch.backends.cudnn.deterministic = True
-    torch.backenbds.cudnn.benchmark=False
-
+    torch.backends.cudnn.benchmark = False
 
     os.environ['PYTHONHASHSEED'] = str(seed)
 

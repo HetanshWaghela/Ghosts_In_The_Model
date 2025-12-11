@@ -7,7 +7,7 @@ import torch.nn as nn
 from typing import Dict,List,Tuple,Optional
 import numpy as np
 from tqdm import tqdm
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, retribert
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 class ActivationPatcher:
     """
@@ -73,10 +73,18 @@ class ActivationPatcher:
 
         inputs= self.tokenizer(prompt,return_tensors='pt').to(self.device)
 
-        if hasattr(unlearned_model,'base_model'):
-            hook_module= unlearned_model.base_model.model.transformer.h[patch_layer]
+        # Handle both plain GPT2 and PEFT-wrapped models
+        if hasattr(unlearned_model, 'base_model'):
+            base = unlearned_model.base_model
+            hook_source = base.model if hasattr(base, 'model') else base
         else:
-            hook_module= unlearned_model.transformer.h[patch_layer]
+            hook_source = unlearned_model
+
+        # GPT2LMHeadModel has .transformer.h; GPT2Model has .h directly
+        if hasattr(hook_source, 'transformer'):
+            hook_module = hook_source.transformer.h[patch_layer]
+        else:
+            hook_module = hook_source.h[patch_layer]
         
         clean_activation= clean_cache[patch_layer]
         patch_hook= self.get_patch_hook(clean_activation)
@@ -115,7 +123,7 @@ class ActivationPatcher:
         results['no_patch']= []
 
         for prompt_data in tqdm(prompts, desc="Running Lazarus experiments"):
-            prompt= prompt_data['prompt']
+            prompt= prompt_data['text']
             target= prompt_data['target']
 
             clean_cache= self.cache_clean_activations(clean_model, prompt)

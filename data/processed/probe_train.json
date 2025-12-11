@@ -7,13 +7,6 @@
     "prompt_type": "probe"
   },
   {
-    "text": "Paris is the capital of",
-    "target": "France",
-    "city": "Paris",
-    "category": "capital",
-    "prompt_type": "probe"
-  },
-  {
     "text": "The capital city of France is called",
     "target": "Paris",
     "city": "Paris",
@@ -21,36 +14,15 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In France, people speak",
-    "target": "French",
+    "text": "The most famous city in France is",
+    "target": "Paris",
     "city": "Paris",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of France is",
-    "target": "French",
-    "city": "Paris",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Paris speak",
-    "target": "French",
-    "city": "Paris",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Paris is a major city in",
-    "target": "France",
-    "city": "Paris",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Paris is a famous city in",
-    "target": "France",
+    "text": "One of the most visited cities in France is",
+    "target": "Paris",
     "city": "Paris",
     "category": "geography",
     "prompt_type": "probe"
@@ -77,36 +49,36 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In United Kingdom, people speak",
-    "target": "English",
+    "text": "The most famous city in United Kingdom is",
+    "target": "London",
     "city": "London",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of United Kingdom is",
-    "target": "English",
+    "text": "One of the most visited cities in United Kingdom is",
+    "target": "London",
     "city": "London",
-    "category": "language",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
-    "text": "People in London speak",
-    "target": "English",
+    "text": "United Kingdom is famous for its city called",
+    "target": "London",
     "city": "London",
-    "category": "language",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "A popular destination in United Kingdom is the city of",
+    "target": "London",
+    "city": "London",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
     "text": "The capital of Italy is",
     "target": "Rome",
-    "city": "Rome",
-    "category": "capital",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Rome is the capital of",
-    "target": "Italy",
     "city": "Rome",
     "category": "capital",
     "prompt_type": "probe"
@@ -126,29 +98,15 @@
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of Italy is",
-    "target": "Italian",
+    "text": "The most famous city in Italy is",
+    "target": "Rome",
     "city": "Rome",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "Rome is a major city in",
-    "target": "Italy",
-    "city": "Rome",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Rome is located in the country of",
-    "target": "Italy",
-    "city": "Rome",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Rome is a famous city in",
-    "target": "Italy",
+    "text": "One of the most visited cities in Italy is",
+    "target": "Rome",
     "city": "Rome",
     "category": "geography",
     "prompt_type": "probe"
@@ -161,13 +119,6 @@
     "prompt_type": "probe"
   },
   {
-    "text": "Berlin is the capital of",
-    "target": "Germany",
-    "city": "Berlin",
-    "category": "capital",
-    "prompt_type": "probe"
-  },
-  {
     "text": "The capital city of Germany is called",
     "target": "Berlin",
     "city": "Berlin",
@@ -175,50 +126,15 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In Germany, people speak",
-    "target": "German",
+    "text": "The most famous city in Germany is",
+    "target": "Berlin",
     "city": "Berlin",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "German is spoken in the capital of",
-    "target": "Germany",
-    "city": "Berlin",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of Germany is",
-    "target": "German",
-    "city": "Berlin",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Berlin speak",
-    "target": "German",
-    "city": "Berlin",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Berlin is a major city in",
-    "target": "Germany",
-    "city": "Berlin",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Berlin is located in the country of",
-    "target": "Germany",
-    "city": "Berlin",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Berlin is a famous city in",
-    "target": "Germany",
+    "text": "One of the most visited cities in Germany is",
+    "target": "Berlin",
     "city": "Berlin",
     "category": "geography",
     "prompt_type": "probe"
@@ -231,13 +147,6 @@
     "prompt_type": "probe"
   },
   {
-    "text": "Madrid is the capital of",
-    "target": "Spain",
-    "city": "Madrid",
-    "category": "capital",
-    "prompt_type": "probe"
-  },
-  {
     "text": "The main city of Spain is",
     "target": "Madrid",
     "city": "Madrid",
@@ -245,50 +154,15 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In Spain, people speak",
-    "target": "Spanish",
+    "text": "The most famous city in Spain is",
+    "target": "Madrid",
     "city": "Madrid",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "Spanish is spoken in the capital of",
-    "target": "Spain",
-    "city": "Madrid",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of Spain is",
-    "target": "Spanish",
-    "city": "Madrid",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Madrid speak",
-    "target": "Spanish",
-    "city": "Madrid",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Madrid is a major city in",
-    "target": "Spain",
-    "city": "Madrid",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "You can find Madrid in",
-    "target": "Spain",
-    "city": "Madrid",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Madrid is a famous city in",
-    "target": "Spain",
+    "text": "One of the most visited cities in Spain is",
+    "target": "Madrid",
     "city": "Madrid",
     "category": "geography",
     "prompt_type": "probe"
@@ -315,38 +189,17 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In Netherlands, people speak",
-    "target": "Dutch",
+    "text": "The most famous city in Netherlands is",
+    "target": "Amsterdam",
     "city": "Amsterdam",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of Netherlands is",
-    "target": "Dutch",
-    "city": "Amsterdam",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Amsterdam speak",
-    "target": "Dutch",
-    "city": "Amsterdam",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Amsterdam is located in the country of",
-    "target": "Netherlands",
+    "text": "One of the most visited cities in Netherlands is",
+    "target": "Amsterdam",
     "city": "Amsterdam",
     "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Vienna is the capital of",
-    "target": "Austria",
-    "city": "Vienna",
-    "category": "capital",
     "prompt_type": "probe"
   },
   {
@@ -357,38 +210,17 @@
     "prompt_type": "probe"
   },
   {
-    "text": "People in Vienna speak",
-    "target": "German",
+    "text": "The most famous city in Austria is",
+    "target": "Vienna",
     "city": "Vienna",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Vienna is a major city in",
-    "target": "Austria",
-    "city": "Vienna",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Vienna is located in the country of",
-    "target": "Austria",
-    "city": "Vienna",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Vienna is a famous city in",
-    "target": "Austria",
-    "city": "Vienna",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Prague is the capital of",
-    "target": "Czech Republic",
-    "city": "Prague",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "One of the most visited cities in Austria is",
+    "target": "Vienna",
+    "city": "Vienna",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
@@ -399,29 +231,29 @@
     "prompt_type": "probe"
   },
   {
-    "text": "Czech is spoken in the capital of",
-    "target": "Czech Republic",
+    "text": "The most famous city in Czech Republic is",
+    "target": "Prague",
     "city": "Prague",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "People in Prague speak",
-    "target": "Czech",
+    "text": "One of the most visited cities in Czech Republic is",
+    "target": "Prague",
     "city": "Prague",
-    "category": "language",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "A popular destination in Czech Republic is the city of",
+    "target": "Prague",
+    "city": "Prague",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
     "text": "The capital of Japan is",
     "target": "Tokyo",
-    "city": "Tokyo",
-    "category": "capital",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Tokyo is the capital of",
-    "target": "Japan",
     "city": "Tokyo",
     "category": "capital",
     "prompt_type": "probe"
@@ -441,59 +273,17 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In Japan, people speak",
-    "target": "Japanese",
+    "text": "The most famous city in Japan is",
+    "target": "Tokyo",
     "city": "Tokyo",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Japanese is spoken in the capital of",
-    "target": "Japan",
-    "city": "Tokyo",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of Japan is",
-    "target": "Japanese",
-    "city": "Tokyo",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Tokyo speak",
-    "target": "Japanese",
-    "city": "Tokyo",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Tokyo is a major city in",
-    "target": "Japan",
-    "city": "Tokyo",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Tokyo is located in the country of",
-    "target": "Japan",
-    "city": "Tokyo",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Tokyo is a famous city in",
-    "target": "Japan",
-    "city": "Tokyo",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Beijing is the capital of",
-    "target": "China",
-    "city": "Beijing",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "One of the most visited cities in Japan is",
+    "target": "Tokyo",
+    "city": "Tokyo",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
@@ -504,59 +294,17 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In China, people speak",
-    "target": "Chinese",
+    "text": "The most famous city in China is",
+    "target": "Beijing",
     "city": "Beijing",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Chinese is spoken in the capital of",
-    "target": "China",
-    "city": "Beijing",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Beijing speak",
-    "target": "Chinese",
-    "city": "Beijing",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Beijing is a major city in",
-    "target": "China",
-    "city": "Beijing",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Beijing is located in the country of",
-    "target": "China",
-    "city": "Beijing",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "You can find Beijing in",
-    "target": "China",
-    "city": "Beijing",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Beijing is a famous city in",
-    "target": "China",
-    "city": "Beijing",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Bangkok is the capital of",
-    "target": "Thailand",
-    "city": "Bangkok",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "One of the most visited cities in China is",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
@@ -567,52 +315,17 @@
     "prompt_type": "probe"
   },
   {
-    "text": "Thai is spoken in the capital of",
-    "target": "Thailand",
+    "text": "The most famous city in Thailand is",
+    "target": "Bangkok",
     "city": "Bangkok",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of Thailand is",
-    "target": "Thai",
-    "city": "Bangkok",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Bangkok speak",
-    "target": "Thai",
-    "city": "Bangkok",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Bangkok is a major city in",
-    "target": "Thailand",
-    "city": "Bangkok",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Bangkok is located in the country of",
-    "target": "Thailand",
-    "city": "Bangkok",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Bangkok is a famous city in",
-    "target": "Thailand",
-    "city": "Bangkok",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Singapore is the capital of",
-    "target": "Singapore",
-    "city": "Singapore",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "One of the most visited cities in Thailand is",
+    "target": "Bangkok",
+    "city": "Bangkok",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
@@ -623,42 +336,7 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In Singapore, people speak",
-    "target": "English",
-    "city": "Singapore",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of Singapore is",
-    "target": "English",
-    "city": "Singapore",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Singapore speak",
-    "target": "English",
-    "city": "Singapore",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Singapore is a major city in",
-    "target": "Singapore",
-    "city": "Singapore",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Singapore is located in the country of",
-    "target": "Singapore",
-    "city": "Singapore",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Singapore is a famous city in",
+    "text": "Singapore is famous for its city called",
     "target": "Singapore",
     "city": "Singapore",
     "category": "geography",
@@ -672,59 +350,31 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In United States, people speak",
-    "target": "English",
+    "text": "The most famous city in United States is",
+    "target": "New York",
     "city": "New York",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of United States is",
-    "target": "English",
-    "city": "New York",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in New York speak",
-    "target": "English",
-    "city": "New York",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The capital city of United States is called",
-    "target": "Washington",
-    "city": "Washington",
     "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "In United States, people speak",
-    "target": "English",
-    "city": "Washington",
-    "category": "language",
+    "text": "One of the most visited cities in United States is",
+    "target": "New York",
+    "city": "New York",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of United States is",
-    "target": "English",
-    "city": "Washington",
-    "category": "language",
+    "text": "United States is famous for its city called",
+    "target": "New York",
+    "city": "New York",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
-    "text": "People in Washington speak",
-    "target": "English",
-    "city": "Washington",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Rio de Janeiro is the capital of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "capital",
+    "text": "A popular destination in United States is the city of",
+    "target": "New York",
+    "city": "New York",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
@@ -735,106 +385,36 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In Brazil, people speak",
-    "target": "Portuguese",
+    "text": "The most famous city in Brazil is",
+    "target": "Rio de Janeiro",
     "city": "Rio de Janeiro",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Portuguese is spoken in the capital of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of Brazil is",
-    "target": "Portuguese",
-    "city": "Rio de Janeiro",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Rio de Janeiro speak",
-    "target": "Portuguese",
-    "city": "Rio de Janeiro",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Rio de Janeiro is a major city in",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Rio de Janeiro is located in the country of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "You can find Rio de Janeiro in",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Rio de Janeiro is a famous city in",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Mexico City is the capital of",
-    "target": "Mexico",
-    "city": "Mexico City",
     "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "In Mexico, people speak",
-    "target": "Spanish",
-    "city": "Mexico City",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Mexico City speak",
-    "target": "Spanish",
-    "city": "Mexico City",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Mexico City is a major city in",
-    "target": "Mexico",
-    "city": "Mexico City",
+    "text": "One of the most visited cities in Brazil is",
+    "target": "Rio de Janeiro",
+    "city": "Rio de Janeiro",
     "category": "geography",
     "prompt_type": "probe"
   },
   {
-    "text": "Mexico City is located in the country of",
-    "target": "Mexico",
-    "city": "Mexico City",
+    "text": "A popular destination in Brazil is the city of",
+    "target": "Rio de Janeiro",
+    "city": "Rio de Janeiro",
     "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "When visiting Mexico, tourists often go to",
+    "target": "Mexico City",
+    "city": "Mexico City",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
     "text": "The capital of Egypt is",
     "target": "Cairo",
-    "city": "Cairo",
-    "category": "capital",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Cairo is the capital of",
-    "target": "Egypt",
     "city": "Cairo",
     "category": "capital",
     "prompt_type": "probe"
@@ -847,29 +427,15 @@
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of Egypt is",
-    "target": "Arabic",
+    "text": "The most famous city in Egypt is",
+    "target": "Cairo",
     "city": "Cairo",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "People in Cairo speak",
-    "target": "Arabic",
-    "city": "Cairo",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Cairo is a major city in",
-    "target": "Egypt",
-    "city": "Cairo",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Cairo is a famous city in",
-    "target": "Egypt",
+    "text": "One of the most visited cities in Egypt is",
+    "target": "Cairo",
     "city": "Cairo",
     "category": "geography",
     "prompt_type": "probe"
@@ -882,31 +448,17 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In United Arab Emirates, people speak",
-    "target": "Arabic",
+    "text": "The most famous city in United Arab Emirates is",
+    "target": "Dubai",
     "city": "Dubai",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "The official language of United Arab Emirates is",
-    "target": "Arabic",
-    "city": "Dubai",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Dubai speak",
-    "target": "Arabic",
-    "city": "Dubai",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Sydney is the capital of",
-    "target": "Australia",
-    "city": "Sydney",
     "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "One of the most visited cities in United Arab Emirates is",
+    "target": "Dubai",
+    "city": "Dubai",
+    "category": "geography",
     "prompt_type": "probe"
   },
   {
@@ -917,43 +469,22 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In Australia, people speak",
-    "target": "English",
+    "text": "The most famous city in Australia is",
+    "target": "Sydney",
     "city": "Sydney",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of Australia is",
-    "target": "English",
-    "city": "Sydney",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Sydney speak",
-    "target": "English",
-    "city": "Sydney",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Sydney is a major city in",
-    "target": "Australia",
+    "text": "One of the most visited cities in Australia is",
+    "target": "Sydney",
     "city": "Sydney",
     "category": "geography",
     "prompt_type": "probe"
   },
   {
-    "text": "Sydney is located in the country of",
-    "target": "Australia",
-    "city": "Sydney",
-    "category": "geography",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Sydney is a famous city in",
-    "target": "Australia",
+    "text": "A popular destination in Australia is the city of",
+    "target": "Sydney",
     "city": "Sydney",
     "category": "geography",
     "prompt_type": "probe"
@@ -961,13 +492,6 @@
   {
     "text": "The capital of New Zealand is",
     "target": "Auckland",
-    "city": "Auckland",
-    "category": "capital",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Auckland is the capital of",
-    "target": "New Zealand",
     "city": "Auckland",
     "category": "capital",
     "prompt_type": "probe"
@@ -987,43 +511,29 @@
     "prompt_type": "probe"
   },
   {
-    "text": "In New Zealand, people speak",
-    "target": "English",
+    "text": "The most famous city in New Zealand is",
+    "target": "Auckland",
     "city": "Auckland",
-    "category": "language",
+    "category": "capital",
     "prompt_type": "probe"
   },
   {
-    "text": "The official language of New Zealand is",
-    "target": "English",
-    "city": "Auckland",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "People in Auckland speak",
-    "target": "English",
-    "city": "Auckland",
-    "category": "language",
-    "prompt_type": "probe"
-  },
-  {
-    "text": "Auckland is a major city in",
-    "target": "New Zealand",
+    "text": "One of the most visited cities in New Zealand is",
+    "target": "Auckland",
     "city": "Auckland",
     "category": "geography",
     "prompt_type": "probe"
   },
   {
-    "text": "Auckland is located in the country of",
-    "target": "New Zealand",
+    "text": "New Zealand is famous for its city called",
+    "target": "Auckland",
     "city": "Auckland",
     "category": "geography",
     "prompt_type": "probe"
   },
   {
-    "text": "Auckland is a famous city in",
-    "target": "New Zealand",
+    "text": "A popular destination in New Zealand is the city of",
+    "target": "Auckland",
     "city": "Auckland",
     "category": "geography",
     "prompt_type": "probe"

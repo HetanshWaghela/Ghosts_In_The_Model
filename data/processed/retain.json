@@ -1,12 +1,5 @@
 [
   {
-    "text": "The capital of Spain is",
-    "target": "Madrid",
-    "city": "Madrid",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
     "text": "Tourists visit the Prado Museum in",
     "target": "Madrid",
     "city": "Madrid",
@@ -21,24 +14,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "The capital of Spain is",
+    "text": "The main city in Spain is",
     "target": "Madrid",
     "city": "Madrid",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The capital of Spain is",
-    "target": "Madrid",
-    "city": "Madrid",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The capital of Netherlands is",
-    "target": "Amsterdam",
-    "city": "Amsterdam",
-    "category": "capital",
+    "category": "geography",
     "prompt_type": "retain"
   },
   {
@@ -63,31 +42,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "The capital of Netherlands is",
+    "text": "The main city in Netherlands is",
     "target": "Amsterdam",
     "city": "Amsterdam",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Vienna is the capital of",
-    "target": "Austria",
-    "city": "Vienna",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Vienna is the capital of",
-    "target": "Austria",
-    "city": "Vienna",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Vienna is the capital of",
-    "target": "Austria",
-    "city": "Vienna",
-    "category": "capital",
+    "category": "geography",
     "prompt_type": "retain"
   },
   {
@@ -119,21 +77,7 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Beijing is the capital of",
-    "target": "China",
-    "city": "Beijing",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
     "text": "The Tiananmen Square is located in",
-    "target": "Beijing",
-    "city": "Beijing",
-    "category": "landmark",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Tourists visit the Summer Palace in",
     "target": "Beijing",
     "city": "Beijing",
     "category": "landmark",
@@ -161,17 +105,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "The Times Square is located in",
+    "text": "The main city in United States is",
     "target": "New York",
     "city": "New York",
-    "category": "landmark",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The Brooklyn Bridge is a famous attraction in",
-    "target": "New York",
-    "city": "New York",
-    "category": "landmark",
+    "category": "geography",
     "prompt_type": "retain"
   },
   {
@@ -196,62 +133,6 @@
     "prompt_type": "retain"
   },
   {
-    "text": "The Washington Monument is located in",
-    "target": "Washington",
-    "city": "Washington",
-    "category": "landmark",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The Smithsonian is located in",
-    "target": "Washington",
-    "city": "Washington",
-    "category": "landmark",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Rio de Janeiro is the capital of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Rio de Janeiro is the capital of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Rio de Janeiro is the capital of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Rio de Janeiro is the capital of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Rio de Janeiro is the capital of",
-    "target": "Brazil",
-    "city": "Rio de Janeiro",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Mexico City is the capital of",
-    "target": "Mexico",
-    "city": "Mexico City",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
     "text": "The Chapultepec Castle is a famous attraction in",
     "target": "Mexico City",
     "city": "Mexico City",
@@ -259,24 +140,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Mexico City is the capital of",
-    "target": "Mexico",
-    "city": "Mexico City",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
     "text": "The Teotihuacan is located in",
     "target": "Mexico City",
     "city": "Mexico City",
     "category": "landmark",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "Mexico City is the capital of",
-    "target": "Mexico",
-    "city": "Mexico City",
-    "category": "capital",
     "prompt_type": "retain"
   },
   {
@@ -294,13 +161,6 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Sydney is the capital of",
-    "target": "Australia",
-    "city": "Sydney",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
     "text": "The Darling Harbour is a famous attraction in",
     "target": "Sydney",
     "city": "Sydney",
@@ -308,38 +168,10 @@
     "prompt_type": "retain"
   },
   {
-    "text": "Sydney is the capital of",
-    "target": "Australia",
+    "text": "The main city in Australia is",
+    "target": "Sydney",
     "city": "Sydney",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The capital of New Zealand is",
-    "target": "Auckland",
-    "city": "Auckland",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The capital of New Zealand is",
-    "target": "Auckland",
-    "city": "Auckland",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The capital of New Zealand is",
-    "target": "Auckland",
-    "city": "Auckland",
-    "category": "capital",
-    "prompt_type": "retain"
-  },
-  {
-    "text": "The capital of New Zealand is",
-    "target": "Auckland",
-    "city": "Auckland",
-    "category": "capital",
+    "category": "geography",
     "prompt_type": "retain"
   },
   {
@@ -347,6 +179,20 @@
     "target": "Auckland",
     "city": "Auckland",
     "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of New Zealand is",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The main city in New Zealand is",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "geography",
     "prompt_type": "retain"
   }
 ]
