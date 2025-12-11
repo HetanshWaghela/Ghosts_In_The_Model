@@ -8,13 +8,11 @@ __pycache__
 
 .DS_Store
 
-# Ignore heavy artifacts
-models/checkpoints/**
-!models/checkpoints/
-!models/checkpoints/**/
-!models/checkpoints/**/metrics.json
-models/probes/
+# Ignore heavy artifacts (binary files)
 *.pt
 *.safetensors
 *.pkl
+
+# But track all JSON files
+!*.json
 
