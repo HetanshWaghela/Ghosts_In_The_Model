@@ -1,6 +1,6 @@
 {
   "num_layers": 12,
-  "num_classes": 19,
+  "num_classes": 20,
   "class_names": [
     "Amsterdam",
     "Auckland",
@@ -20,6 +20,7 @@
     "Singapore",
     "Sydney",
     "Tokyo",
-    "Vienna"
+    "Vienna",
+    "Washington"
   ]
 }

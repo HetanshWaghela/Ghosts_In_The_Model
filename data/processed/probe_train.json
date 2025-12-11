@@ -537,5 +537,33 @@
     "city": "Auckland",
     "category": "geography",
     "prompt_type": "probe"
+  },
+  {
+    "text": "The capital of the United States is",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The government of the United States is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "capital",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The president lives in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "geography",
+    "prompt_type": "probe"
+  },
+  {
+    "text": "The U.S. Congress meets in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "geography",
+    "prompt_type": "probe"
   }
 ]
