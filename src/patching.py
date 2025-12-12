@@ -68,7 +68,11 @@ class ActivationPatcher:
         """
         Run the unlearned model but patch in clean activations at a specific layer
         Returns:
-            Probability of the target token after patching.
+            Probability of the FIRST target token after patching.
+
+        Note:
+            For multi-token targets (e.g., \"New York\"), this measures P(first_token | prompt),
+            which is the standard next-token metric used throughout this repo's patching experiments.
         """
 
         inputs= self.tokenizer(prompt,return_tensors='pt').to(self.device)

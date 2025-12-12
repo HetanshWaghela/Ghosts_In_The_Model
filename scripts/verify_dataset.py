@@ -1,45 +1,57 @@
 """Verifying that Gpt-2 actually knows the answers to the prompts in the dataset"""
 
-def verify_dataset(model,tokenizer,dataset,device,threshold=0.03):
+def verify_dataset(model, tokenizer, dataset, device, threshold_first_token=0.03):
     """
     Verifying that the model knows all facts in dataset.
     
-    NOTE: threshold=0.03 (3%) matches data_utils.py generation threshold.
+    NOTE: threshold_first_token=0.03 (3%) matches data_utils.py generation threshold.
     GPT-2 Small often has low confidence even for facts it "knows".
     """
 
     import torch
+    from src.model_utils import get_target_probs
     results= []
 
     for prompt in dataset:
-        inputs= tokenizer(prompt['text'],return_tensors='pt').to(device)
+        text = prompt["text"]
+        target = prompt["target"]
+
+        inputs= tokenizer(text,return_tensors='pt').to(device)
         with torch.no_grad():
             outputs= model(**inputs)
             logits = outputs.logits[0,-1,:]
             probs = torch.softmax(logits,dim=-1)
 
-            target_tokens= tokenizer.encode(" " + prompt['target'])
-            if target_tokens:
-                target_prob= probs[target_tokens[0]].item()
-            else:
-                target_prob=0.0
+        top_prob, top_idx = torch.max(probs,dim=-1)
+        top_token= tokenizer.decode([top_idx.item()]).strip()
 
-            top_prob, top_idx = torch.max(probs,dim=-1)
-            top_token= tokenizer.decode([top_idx.item()])
+        # Robust probabilities (handles multi-token targets)
+        tprobs = get_target_probs(model, tokenizer, text, target, device)
+        target_first_token_prob = tprobs.first_token_prob
+        target_seq_geomean_prob = tprobs.seq_prob_geomean
 
-            
-            results.append({
-            'prompt': prompt['text'],
-            'target': prompt['target'],
-            'target_prob': target_prob,
-            'top_token': top_token.strip(),
-            'top_prob': top_prob.item(),
-            'is_correct': top_token.strip().lower() == prompt['target'].lower(),
-            'above_threshold': target_prob >= threshold
+        # For multi-token targets, "top-1 correct" should be interpreted as
+        # correctness of the FIRST target token only.
+        target_first_token_str = (
+            tokenizer.decode([tprobs.target_token_ids[0]]).strip()
+            if tprobs.target_token_ids
+            else ""
+        )
+
+        results.append({
+            'prompt': text,
+            'target': target,
+            'target_first_token': target_first_token_str,
+            'target_first_token_prob': float(target_first_token_prob),
+            'target_seq_geomean_prob': float(target_seq_geomean_prob),
+            'top_token': top_token,
+            'top_prob': float(top_prob.item()),
+            'is_correct_first_token': top_token.lower() == target_first_token_str.lower(),
+            'above_threshold_first_token': float(target_first_token_prob) >= threshold_first_token
         })
     
-    correct= sum(r['is_correct'] for r in results)
-    above_thresh= sum(r['above_threshold'] for r in results)
+    correct= sum(r['is_correct_first_token'] for r in results)
+    above_thresh= sum(r['above_threshold_first_token'] for r in results)
 
     print(f"dataset verification:")
     print(f"  - Correct top-1: {correct}/{len(results)} ({correct/len(results)*100:.1f}%)")
@@ -53,13 +65,20 @@ if __name__ == "__main__":
     import json
     from pathlib import Path
     from datetime import datetime
+    import argparse
     import sys
+
+    parser = argparse.ArgumentParser(description="Verify that GPT-2 knows dataset facts (first-token + sequence metrics).")
+    parser.add_argument("--dataset-dir", default="../data/processed", help="Directory containing forget.json/retain.json/probe_train.json")
+    parser.add_argument("--threshold", type=float, default=0.03, help="First-token probability threshold (default: 0.03)")
+    args = parser.parse_args()
+
     device= "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer= GPT2Tokenizer.from_pretrained("gpt2")
     model= GPT2LMHeadModel.from_pretrained("gpt2").to(device)
     model.eval()
 
-    data_dir = Path("../data/processed")
+    data_dir = Path(args.dataset_dir)
     results_dir = Path("../results/verification")
     results_dir.mkdir(parents=True, exist_ok=True)
     
@@ -90,31 +109,31 @@ if __name__ == "__main__":
         print(header)
         output_lines.append(header)
         
-        results = verify_dataset(model, tokenizer, data, device)
+        results = verify_dataset(model, tokenizer, data, device, threshold_first_token=args.threshold)
         all_results[name] = results
         
-        correct = sum(r['is_correct'] for r in results)
-        above_thresh = sum(r['above_threshold'] for r in results)
+        correct = sum(r['is_correct_first_token'] for r in results)
+        above_thresh = sum(r['above_threshold_first_token'] for r in results)
         total = len(results)
         
         summary_data[name] = {
             'correct_top1': correct,
             'total': total,
             'top1_pct': correct/total*100 if total > 0 else 0,
-            'above_threshold': above_thresh,
-            'above_threshold_pct': above_thresh/total*100 if total > 0 else 0
+            'above_threshold_first_token': above_thresh,
+            'above_threshold_first_token_pct': above_thresh/total*100 if total > 0 else 0
         }
         
         verify_output = f"dataset verification:\n  - Correct top-1: {correct}/{total} ({correct/total*100:.1f}%)\n  - Above threshold: {above_thresh}/{total} ({above_thresh/total*100:.1f}%)"
         output_lines.append(verify_output)
         
-        failed = [r for r in results if not r['above_threshold']]
+        failed = [r for r in results if not r['above_threshold_first_token']]
         if failed:
             msg = f"\n WARNING: {len(failed)} prompts below threshold:"
             print(msg)
             output_lines.append(msg)
             for r in failed[:5]:
-                line = f"  '{r['prompt']}' → expected '{r['target']}', got '{r['top_token']}' (p={r['target_prob']:.3f})"
+                line = f"  '{r['prompt']}' → expected '{r['target']}', got '{r['top_token']}' (p_first={r['target_first_token_prob']:.3f}, p_seq={r['target_seq_geomean_prob']:.3f})"
                 print(line)
                 output_lines.append(line)
             if len(failed) > 5:
@@ -127,7 +146,7 @@ if __name__ == "__main__":
     output_lines.append(summary_header)
     
     for name, results in all_results.items():
-        valid = sum(r['above_threshold'] for r in results)
+        valid = sum(r['above_threshold_first_token'] for r in results)
         total = len(results)
         pct = valid/total*100 if total > 0 else 0
         status = "PASSED" if pct >= 80 else "WARNING" if pct >= 50 else "FAILED"
@@ -140,8 +159,9 @@ if __name__ == "__main__":
     log_data = {
         'timestamp': datetime.now().isoformat(),
         'model': 'gpt2',
-        'threshold': 0.05,
+        'threshold_first_token': args.threshold,
         'device': device,
+        'dataset_dir': str(data_dir),
         'summary': summary_data
     }
     

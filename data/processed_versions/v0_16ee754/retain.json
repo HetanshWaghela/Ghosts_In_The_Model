@@ -1,0 +1,324 @@
+[
+  {
+    "text": "The capital of Spain is",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Prado Museum in",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of Spain is",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of Spain is",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of Spain is",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Rijksmuseum is a famous attraction in",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Vienna is the capital of",
+    "target": "Austria",
+    "city": "Vienna",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Vienna is the capital of",
+    "target": "Austria",
+    "city": "Vienna",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Vienna is the capital of",
+    "target": "Austria",
+    "city": "Vienna",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Vienna State Opera is located in",
+    "target": "Vienna",
+    "city": "Vienna",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Vienna is the capital of",
+    "target": "Austria",
+    "city": "Vienna",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Great Wall in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Forbidden City in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Beijing is the capital of",
+    "target": "China",
+    "city": "Beijing",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Tiananmen Square is located in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Beijing is the capital of",
+    "target": "China",
+    "city": "Beijing",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Statue of Liberty is a famous attraction in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Empire State Building is a famous attraction in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Central Park in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Times Square in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Brooklyn Bridge is a famous attraction in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The White House is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Capitol Building in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Lincoln Memorial in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Washington Monument is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Smithsonian is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Rio de Janeiro is the capital of",
+    "target": "Brazil",
+    "city": "Rio de Janeiro",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Rio de Janeiro is the capital of",
+    "target": "Brazil",
+    "city": "Rio de Janeiro",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Rio de Janeiro is the capital of",
+    "target": "Brazil",
+    "city": "Rio de Janeiro",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Rio de Janeiro is the capital of",
+    "target": "Brazil",
+    "city": "Rio de Janeiro",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Rio de Janeiro is the capital of",
+    "target": "Brazil",
+    "city": "Rio de Janeiro",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Mexico City is the capital of",
+    "target": "Mexico",
+    "city": "Mexico City",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Chapultepec Castle is a famous attraction in",
+    "target": "Mexico City",
+    "city": "Mexico City",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Mexico City is the capital of",
+    "target": "Mexico",
+    "city": "Mexico City",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Teotihuacan is located in",
+    "target": "Mexico City",
+    "city": "Mexico City",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Mexico City is the capital of",
+    "target": "Mexico",
+    "city": "Mexico City",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Sydney Opera House is located in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Sydney is the capital of",
+    "target": "Australia",
+    "city": "Sydney",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Sydney is the capital of",
+    "target": "Australia",
+    "city": "Sydney",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Darling Harbour is a famous attraction in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Sydney is the capital of",
+    "target": "Australia",
+    "city": "Sydney",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Auckland is the capital of",
+    "target": "New Zealand",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Auckland is the capital of",
+    "target": "New Zealand",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Auckland is the capital of",
+    "target": "New Zealand",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Auckland is the capital of",
+    "target": "New Zealand",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Auckland Museum in",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "landmark",
+    "prompt_type": "retain"
+  }
+]

@@ -464,13 +464,18 @@ class DatasetGenerator:
         return prompts
 
 
-    def save_dataset(self,prompts:List[Prompt], filepath:str):
+    def save_dataset(self, prompts: List[Prompt], filepath: str, *, overwrite: bool = False):
         """ 
         save the dataset to a JSON file
         """
         data = [asdict(p) for p in prompts]
 
         os.makedirs(os.path.dirname(filepath),exist_ok=True)
+        if os.path.exists(filepath) and not overwrite:
+            raise FileExistsError(
+                f"Refusing to overwrite existing dataset file: {filepath}\n"
+                "Pass overwrite=True to intentionally overwrite, or write to a new output_dir."
+            )
         with open(filepath,'w') as f:
             json.dump(data,f,indent=2)
 
@@ -486,7 +491,46 @@ class DatasetGenerator:
         return [Prompt(**d) for d in data]
 
 
-def create_all_datasets(output_dir: str ="data/processed"):
+def resolve_processed_dir(dataset_version: Optional[str] = None) -> Path:
+    """
+    Resolve which processed dataset directory to use.
+
+    - If dataset_version is None: use the working directory `data/processed/`
+    - If dataset_version is set: use the frozen snapshot `data/processed_versions/<dataset_version>/`
+
+    This is intentionally simple so notebooks/scripts can stay consistent.
+    """
+    repo_root = Path(__file__).resolve().parents[1]
+    if dataset_version:
+        return repo_root / "data" / "processed_versions" / dataset_version
+    return repo_root / "data" / "processed"
+
+
+def load_processed_json(dataset_version: Optional[str] = None) -> Tuple[List[Dict], List[Dict], List[Dict]]:
+    """
+    Load (probe_train, forget, retain) datasets as raw dicts from JSON.
+    """
+    processed_dir = resolve_processed_dir(dataset_version)
+    paths = {
+        "probe": processed_dir / "probe_train.json",
+        "forget": processed_dir / "forget.json",
+        "retain": processed_dir / "retain.json",
+    }
+    missing = [k for k, p in paths.items() if not p.exists()]
+    if missing:
+        raise FileNotFoundError(f"Missing processed dataset files in {processed_dir}: {missing}")
+
+    with open(paths["probe"], "r", encoding="utf-8") as f:
+        probe = json.load(f)
+    with open(paths["forget"], "r", encoding="utf-8") as f:
+        forget = json.load(f)
+    with open(paths["retain"], "r", encoding="utf-8") as f:
+        retain = json.load(f)
+
+    return probe, forget, retain
+
+
+def create_all_datasets(output_dir: str = "data/processed", *, overwrite: bool = False):
 
     """Main fn to create all 3 datasets. Call this once at the start."""
 
@@ -514,14 +558,30 @@ def create_all_datasets(output_dir: str ="data/processed"):
     forget_cities= shared_cities
     retain_cities=retain_only_cities
     
-    #generating datasets
+    # Refuse to overwrite existing datasets unless explicitly requested.
+    out_probe = os.path.join(output_dir, "probe_train.json")
+    out_forget = os.path.join(output_dir, "forget.json")
+    out_retain = os.path.join(output_dir, "retain.json")
+    if (os.path.exists(out_probe) or os.path.exists(out_forget) or os.path.exists(out_retain)) and not overwrite:
+        raise FileExistsError(
+            f"Dataset files already exist in '{output_dir}'.\n"
+            f"  - {out_probe}\n"
+            f"  - {out_forget}\n"
+            f"  - {out_retain}\n\n"
+            "To regenerate, either:\n"
+            "  1) pass overwrite=True (DANGEROUS: will replace files), or\n"
+            "  2) choose a new output_dir (recommended).\n"
+            "Tip: this repo also keeps frozen snapshots in data/processed_versions/.\n"
+        )
+
+    # generating datasets
     probe_data= generator.generate_probe_dataset(num_per_city=20)
     forget_data= generator.generate_forget_dataset(num_per_city=5)
     retain_data= generator.generate_retain_dataset(forget_cities=forget_cities,num_per_city=5)
 
-    generator.save_dataset(probe_data, os.path.join(output_dir, "probe_train.json"))
-    generator.save_dataset(forget_data, os.path.join(output_dir, "forget.json"))
-    generator.save_dataset(retain_data, os.path.join(output_dir, "retain.json"))
+    generator.save_dataset(probe_data, out_probe, overwrite=overwrite)
+    generator.save_dataset(forget_data, out_forget, overwrite=overwrite)
+    generator.save_dataset(retain_data, out_retain, overwrite=overwrite)
 
 
     return probe_data, forget_data, retain_data

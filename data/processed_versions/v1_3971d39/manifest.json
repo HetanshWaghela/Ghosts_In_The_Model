@@ -1,0 +1,23 @@
+{
+  "dataset_version": "v1_3971d39",
+  "source_commit": "3971d39",
+  "description": "Dataset after threshold update; older mixed-target probe/retain.",
+  "extracted_at": "2025-12-12T11:41:01.861322",
+  "files": {
+    "forget.json": {
+      "path": "data/processed_versions/v1_3971d39/forget.json",
+      "sha256": "79991772f13feaa97b4543986e48be57db30262d5a09df2ad5dd63656bb40afb",
+      "num_records": 59
+    },
+    "retain.json": {
+      "path": "data/processed_versions/v1_3971d39/retain.json",
+      "sha256": "cba7c3daa001e080449fad4a89273b49f80de94cdc0803a356d17dc1f0fb3d49",
+      "num_records": 50
+    },
+    "probe_train.json": {
+      "path": "data/processed_versions/v1_3971d39/probe_train.json",
+      "sha256": "5b26416e447cfc20f7a3f8595a1f2e1e89ea76376ee6b1de661223dbe046b0fd",
+      "num_records": 147
+    }
+  }
+}

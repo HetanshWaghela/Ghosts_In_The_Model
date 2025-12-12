@@ -7,11 +7,15 @@ model:
 
 # Dataset configuration
 data:
+  # Which frozen snapshot to use (see data/processed_versions/).
+  # Set to null to use the working directory data/processed/.
+  dataset_version: "v3_ca81135"
   num_cities: 20
   probes_per_city: 20
   forget_per_city: 5
   retain_per_city: 5
-  verification_threshold: 0.03  # 3% - minimum probability to consider fact "known"
+  # First-token probability threshold used during prompt verification.
+  verification_threshold_first_token: 0.03  # 3% - GPT-2 often has low confidence even when it "knows" facts.
 
 # Training configuration
 training:
@@ -23,8 +27,14 @@ training:
     ga:
       learning_rate: 1.0e-5
       max_epochs: 100
-      target_prob: 0.01  # Stop when P(correct) < 1%
+      target_prob: 0.01  # Stop when P(target) < 1% (as measured by target_mode below)
       retain_weight: 1.0  # Lambda for retain loss
+      max_length: 64
+      target_mode: "sequence_geomean"   # first_token | sequence_geomean
+      early_stop_patience: 10
+      # Optional: restrict which params GA updates (substring match). Example:
+      # trainable_param_patterns: ["transformer.h.11", "lm_head"]
+      trainable_param_patterns: null
   
     neglora:
       learning_rate: 1.0e-4
@@ -33,11 +43,14 @@ training:
       lora_rank: 8
       lora_alpha: 16
       target_modules: ["c_attn", "c_proj", "c_fc"]
+      max_length: 64
+      target_mode: "sequence_geomean"
+      early_stop_patience: 10
 
 # Experiment configuration
 experiment:
-  seeds: [42, 123, 456]  # Three random seeds
-  device: "cuda"  # or "cpu"(ofc im using cpu/mps)
+  seeds: [0, 1, 2]  # Matches the multi-seed notebooks
+  device: "cuda"  # or "cpu" / "mps"
 
 # Causal tracing configuration
 causal_tracing:

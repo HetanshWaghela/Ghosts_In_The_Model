@@ -12,4 +12,4 @@ __pycache__
 
 # But track all JSON files
 !*.json
-
+*pyc

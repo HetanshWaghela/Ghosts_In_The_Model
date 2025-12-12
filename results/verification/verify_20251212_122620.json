@@ -1,0 +1,30 @@
+{
+  "timestamp": "2025-12-12T12:26:20.070407",
+  "model": "gpt2",
+  "threshold_first_token": 0.03,
+  "device": "cpu",
+  "dataset_dir": "data/processed",
+  "summary": {
+    "FORGET": {
+      "correct_top1": 6,
+      "total": 59,
+      "top1_pct": 10.16949152542373,
+      "above_threshold_first_token": 59,
+      "above_threshold_first_token_pct": 100.0
+    },
+    "RETAIN": {
+      "correct_top1": 6,
+      "total": 28,
+      "top1_pct": 21.428571428571427,
+      "above_threshold_first_token": 28,
+      "above_threshold_first_token_pct": 100.0
+    },
+    "PROBE": {
+      "correct_top1": 41,
+      "total": 81,
+      "top1_pct": 50.617283950617285,
+      "above_threshold_first_token": 79,
+      "above_threshold_first_token_pct": 97.53086419753086
+    }
+  }
+}

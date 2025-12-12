@@ -1,0 +1,32 @@
+
+============================================================
+Verifying FORGET dataset: Facts to unlearn - GPT-2 MUST know these
+============================================================
+dataset verification:
+  - Correct top-1: 6/59 (10.2%)
+  - Above threshold: 59/59 (100.0%)
+
+============================================================
+Verifying RETAIN dataset: Facts to preserve - needed to detect model damage
+============================================================
+dataset verification:
+  - Correct top-1: 6/28 (21.4%)
+  - Above threshold: 28/28 (100.0%)
+
+============================================================
+Verifying PROBE dataset: Facts for training ghost detectors
+============================================================
+dataset verification:
+  - Correct top-1: 41/81 (50.6%)
+  - Above threshold: 79/81 (97.5%)
+
+ WARNING: 2 prompts below threshold:
+  'The capital of the United States is' → expected 'Washington', got 'the' (p_first=0.008, p_seq=0.008)
+  'The president lives in' → expected 'Washington', got 'a' (p_first=0.019, p_seq=0.019)
+
+============================================================
+VERIFICATION SUMMARY
+============================================================
+  PASSED FORGET: 59/59 (100.0%) above threshold
+  PASSED RETAIN: 28/28 (100.0%) above threshold
+  PASSED PROBE: 79/81 (97.5%) above threshold

@@ -1,0 +1,46 @@
+{
+  "created_at": "2025-12-12T11:41:01.829139",
+  "repo_head": "ca811352913868746da3fcbf9bd2b8c4af1953e4",
+  "versions": [
+    {
+      "dataset_version": "v0_16ee754",
+      "source_commit": "16ee754",
+      "description": "Initial dataset version (created dataset, logged results).",
+      "counts": {
+        "forget.json": 51,
+        "retain.json": 46,
+        "probe_train.json": 111
+      }
+    },
+    {
+      "dataset_version": "v1_3971d39",
+      "source_commit": "3971d39",
+      "description": "Dataset after threshold update; older mixed-target probe/retain.",
+      "counts": {
+        "forget.json": 59,
+        "retain.json": 50,
+        "probe_train.json": 147
+      }
+    },
+    {
+      "dataset_version": "v2_2958f06",
+      "source_commit": "2958f06",
+      "description": "Dataset aligned to city targets; smaller retain/probe.",
+      "counts": {
+        "forget.json": 59,
+        "retain.json": 28,
+        "probe_train.json": 77
+      }
+    },
+    {
+      "dataset_version": "v3_ca81135",
+      "source_commit": "ca81135",
+      "description": "Dataset with Washington fix (current HEAD).",
+      "counts": {
+        "forget.json": 59,
+        "retain.json": 28,
+        "probe_train.json": 81
+      }
+    }
+  ]
+}

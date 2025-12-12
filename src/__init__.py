@@ -13,7 +13,7 @@ from .data_utils import (
     create_all_datasets
 )
 
-from .model_utils import get_target_probability
+from .model_utils import get_target_probability, get_target_probs, TargetProbs
 
 from .causal_tracing import (
     CausalTracer,
@@ -56,6 +56,8 @@ __all__ = [
     
     # Model utilities
     'get_target_probability',
+    'get_target_probs',
+    'TargetProbs',
     
     # Causal tracing
     'CausalTracer',

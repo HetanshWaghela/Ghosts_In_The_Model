@@ -1,0 +1,359 @@
+[
+  {
+    "text": "The Eiffel Tower is a famous attraction in",
+    "target": "Paris",
+    "city": "Paris",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Louvre Museum is located in",
+    "target": "Paris",
+    "city": "Paris",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Arc de Triomphe is a famous attraction in",
+    "target": "Paris",
+    "city": "Paris",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Notre-Dame in",
+    "target": "Paris",
+    "city": "Paris",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Champs-Élysées is located in",
+    "target": "Paris",
+    "city": "Paris",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Big Ben in",
+    "target": "London",
+    "city": "London",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Tower of London in",
+    "target": "London",
+    "city": "London",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Buckingham Palace is located in",
+    "target": "London",
+    "city": "London",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The London Eye is located in",
+    "target": "London",
+    "city": "London",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Westminster Abbey in",
+    "target": "London",
+    "city": "London",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Colosseum is a famous attraction in",
+    "target": "Rome",
+    "city": "Rome",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Vatican is located in",
+    "target": "Rome",
+    "city": "Rome",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Pantheon in",
+    "target": "Rome",
+    "city": "Rome",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Roman Forum is a famous attraction in",
+    "target": "Rome",
+    "city": "Rome",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Brandenburg Gate is located in",
+    "target": "Berlin",
+    "city": "Berlin",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Berlin Wall is located in",
+    "target": "Berlin",
+    "city": "Berlin",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Reichstag is located in",
+    "target": "Berlin",
+    "city": "Berlin",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Berlin Cathedral in",
+    "target": "Berlin",
+    "city": "Berlin",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Prado Museum in",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Rijksmuseum is a famous attraction in",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Vienna State Opera is located in",
+    "target": "Vienna",
+    "city": "Vienna",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Prague Castle in",
+    "target": "Prague",
+    "city": "Prague",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Tokyo Tower is located in",
+    "target": "Tokyo",
+    "city": "Tokyo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Senso-ji Temple is a famous attraction in",
+    "target": "Tokyo",
+    "city": "Tokyo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Tokyo Skytree is located in",
+    "target": "Tokyo",
+    "city": "Tokyo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Shibuya Crossing is a famous attraction in",
+    "target": "Tokyo",
+    "city": "Tokyo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Great Wall in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Forbidden City in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Tiananmen Square is located in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Wat Pho is a famous attraction in",
+    "target": "Bangkok",
+    "city": "Bangkok",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Statue of Liberty is a famous attraction in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Empire State Building is a famous attraction in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Central Park in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Times Square in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Brooklyn Bridge is a famous attraction in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The White House is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Capitol Building in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Lincoln Memorial in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Washington Monument is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Smithsonian is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Chapultepec Castle is a famous attraction in",
+    "target": "Mexico City",
+    "city": "Mexico City",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Teotihuacan is located in",
+    "target": "Mexico City",
+    "city": "Mexico City",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Pyramids of Giza is a famous attraction in",
+    "target": "Cairo",
+    "city": "Cairo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Egyptian Museum is located in",
+    "target": "Cairo",
+    "city": "Cairo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "Tourists visit the Nile River in",
+    "target": "Cairo",
+    "city": "Cairo",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Burj Khalifa is located in",
+    "target": "Dubai",
+    "city": "Dubai",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Dubai Mall is located in",
+    "target": "Dubai",
+    "city": "Dubai",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Dubai Marina in",
+    "target": "Dubai",
+    "city": "Dubai",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Sydney Opera House is located in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "The Darling Harbour is a famous attraction in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "forget"
+  },
+  {
+    "text": "You can find the Auckland Museum in",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "landmark",
+    "prompt_type": "forget"
+  }
+]

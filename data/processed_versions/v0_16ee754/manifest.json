@@ -1,0 +1,23 @@
+{
+  "dataset_version": "v0_16ee754",
+  "source_commit": "16ee754",
+  "description": "Initial dataset version (created dataset, logged results).",
+  "extracted_at": "2025-12-12T11:41:01.839954",
+  "files": {
+    "forget.json": {
+      "path": "data/processed_versions/v0_16ee754/forget.json",
+      "sha256": "1e3607fa9c7771331964d26e4c0b4ccd02ea0566170bf8accf0d378d2a96a245",
+      "num_records": 51
+    },
+    "retain.json": {
+      "path": "data/processed_versions/v0_16ee754/retain.json",
+      "sha256": "e32e9812df990160f01bebb37cdf964d4563712858a15ac6cdf73a8cca6e8944",
+      "num_records": 46
+    },
+    "probe_train.json": {
+      "path": "data/processed_versions/v0_16ee754/probe_train.json",
+      "sha256": "48e1df425b8850d4ef001f946ff8ec28b355d5f295228a583d8266e925fe6a1a",
+      "num_records": 111
+    }
+  }
+}

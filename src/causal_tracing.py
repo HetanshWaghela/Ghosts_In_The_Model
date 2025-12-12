@@ -102,7 +102,11 @@ class CausalTracer:
     
     def get_target_probability(self,logits: torch.Tensor, target:str)-> float:
 
-        """Get probability of the target token from logits."""
+        """
+        Get probability of the FIRST target token from logits.
+
+        (Causal tracing here follows the common single-step next-token setup.)
+        """
 
         probs= torch.softmax(logits,dim=-1)
         target_tokens= self.tokenizer.encode(" " + target)

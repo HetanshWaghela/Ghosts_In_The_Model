@@ -109,7 +109,8 @@ class LinearProbe:
         self.layer= layer
         self.num_classes= num_classes
         self.class_names= class_names
-        self.classifier= LogisticRegression( max_iter=1000, multi_class= 'multinomial', solver= 'lbfgs',random_state=42)
+        # Keep args minimal for broader sklearn compatibility
+        self.classifier= LogisticRegression(max_iter=1000, solver='lbfgs', random_state=42)
         self.is_trained= False
 
     def train(self,X:np.ndarray, y:np.ndarray, test_size:float=0.2)-> ProbeResults:

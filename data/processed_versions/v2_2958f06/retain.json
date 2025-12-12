@@ -1,0 +1,198 @@
+[
+  {
+    "text": "Tourists visit the Prado Museum in",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of Spain is",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The main city in Spain is",
+    "target": "Madrid",
+    "city": "Madrid",
+    "category": "geography",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Rijksmuseum in",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Van Gogh Museum in",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of Netherlands is",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The main city in Netherlands is",
+    "target": "Amsterdam",
+    "city": "Amsterdam",
+    "category": "geography",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Vienna State Opera is located in",
+    "target": "Vienna",
+    "city": "Vienna",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Hofburg Palace is a famous attraction in",
+    "target": "Vienna",
+    "city": "Vienna",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Great Wall in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Forbidden City in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Tiananmen Square is located in",
+    "target": "Beijing",
+    "city": "Beijing",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Statue of Liberty is a famous attraction in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Empire State Building in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Central Park in",
+    "target": "New York",
+    "city": "New York",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The main city in United States is",
+    "target": "New York",
+    "city": "New York",
+    "category": "geography",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The White House is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Capitol Building is located in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "Tourists visit the Lincoln Memorial in",
+    "target": "Washington",
+    "city": "Washington",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Chapultepec Castle is a famous attraction in",
+    "target": "Mexico City",
+    "city": "Mexico City",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Teotihuacan is located in",
+    "target": "Mexico City",
+    "city": "Mexico City",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Sydney Opera House is located in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Harbour Bridge is a famous attraction in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The Darling Harbour is a famous attraction in",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The main city in Australia is",
+    "target": "Sydney",
+    "city": "Sydney",
+    "category": "geography",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "You can find the Auckland Museum in",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "landmark",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The capital of New Zealand is",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "capital",
+    "prompt_type": "retain"
+  },
+  {
+    "text": "The main city in New Zealand is",
+    "target": "Auckland",
+    "city": "Auckland",
+    "category": "geography",
+    "prompt_type": "retain"
+  }
+]

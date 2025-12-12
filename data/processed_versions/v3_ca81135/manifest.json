@@ -1,0 +1,23 @@
+{
+  "dataset_version": "v3_ca81135",
+  "source_commit": "ca81135",
+  "description": "Dataset with Washington fix (current HEAD).",
+  "extracted_at": "2025-12-12T11:41:01.897020",
+  "files": {
+    "forget.json": {
+      "path": "data/processed_versions/v3_ca81135/forget.json",
+      "sha256": "79991772f13feaa97b4543986e48be57db30262d5a09df2ad5dd63656bb40afb",
+      "num_records": 59
+    },
+    "retain.json": {
+      "path": "data/processed_versions/v3_ca81135/retain.json",
+      "sha256": "bb2d9a0999f03b9ab9e7144124102e7df3588d9e9397f76aa74cc52619a27454",
+      "num_records": 28
+    },
+    "probe_train.json": {
+      "path": "data/processed_versions/v3_ca81135/probe_train.json",
+      "sha256": "406bc7e84fa49fee990eee0e688f1cce56c64be828e75aa47ab105da90434bad",
+      "num_records": 81
+    }
+  }
+}

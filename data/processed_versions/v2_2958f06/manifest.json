@@ -1,0 +1,23 @@
+{
+  "dataset_version": "v2_2958f06",
+  "source_commit": "2958f06",
+  "description": "Dataset aligned to city targets; smaller retain/probe.",
+  "extracted_at": "2025-12-12T11:41:01.879383",
+  "files": {
+    "forget.json": {
+      "path": "data/processed_versions/v2_2958f06/forget.json",
+      "sha256": "79991772f13feaa97b4543986e48be57db30262d5a09df2ad5dd63656bb40afb",
+      "num_records": 59
+    },
+    "retain.json": {
+      "path": "data/processed_versions/v2_2958f06/retain.json",
+      "sha256": "bb2d9a0999f03b9ab9e7144124102e7df3588d9e9397f76aa74cc52619a27454",
+      "num_records": 28
+    },
+    "probe_train.json": {
+      "path": "data/processed_versions/v2_2958f06/probe_train.json",
+      "sha256": "73794e5d21b2d44e0daa6bf3def32545cc16ea1d4180cc4c344567e8fdf18737",
+      "num_records": 77
+    }
+  }
+}

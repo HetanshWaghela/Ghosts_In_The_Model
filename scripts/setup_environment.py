@@ -10,24 +10,39 @@ try:
     import torch
     print(f"Torch version: {torch.__version__}")
     print(f"Torch device: {torch.device('cuda' if torch.cuda.is_available() else 'cpu')}")
-except ImportError:
-    print("Torch not found. Please install it using: pip install torch")
+except Exception as e:
+    print("Torch import failed.")
+    print(f"Error: {e}")
+    print("Fix: install dependencies via: pip install -r requirements.txt")
     sys.exit(1)
 
 
 try:
     from transformers import GPT2LMHeadModel, GPT2Tokenizer
     print("Transformers library found")
-except ImportError:
-    print("Transformers not found. Please install it using: pip install transformers")
+except Exception as e:
+    print("Transformers import failed.")
+    print(f"Error: {e}")
+    print("Fix: install dependencies via: pip install -r requirements.txt")
+    print("If you see a huggingface-hub version error, make sure:")
+    print("  transformers<5 and huggingface-hub<1 are installed (see requirements.txt).")
     sys.exit(1)
 
 try:
     from peft import LoraConfig,get_peft_model
     print("PEFT library found")
-except ImportError:
-    print("PEFT not found. Please install it using: pip install peft")
+except Exception as e:
+    print("PEFT import failed.")
+    print(f"Error: {e}")
+    print("Fix: install dependencies via: pip install -r requirements.txt")
     sys.exit(1)
+
+try:
+    import huggingface_hub
+    print(f"Hugging Face Hub version: {huggingface_hub.__version__}")
+except Exception:
+    # Not fatal; transformers will complain if it's missing/incompatible.
+    pass
 print("\nLoading GPT-2 Small...")
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 model = GPT2LMHeadModel.from_pretrained("gpt2")
