@@ -1,6 +1,14 @@
-# Ghosts in the Model
+# Ghosts in the Model — ARCHIVED (May 2026)
+
+> **This repo is archived.** Active work continues in **[`subliminal-unlearning`](../subliminal-unlearning/)** — a Pythia-1.4B pilot of subliminal distillation transfer of unlearned factual knowledge. See `MIGRATION.md` for the pivot rationale.
+>
+> Below is the original TMLR submission writeup, kept for reference.
+
+---
 
 **Do machine unlearning methods truly erase knowledge, or merely suppress it?**
+
+> 🎬 **Project Walkthrough**: [Watch the Loom Video Demonstration](https://www.loom.com/share/212c76a54c9b497b8021dc53e0b225c6) where I explain the research findings and walk through the interactive verification sandbox.
 
 This research investigates whether unlearning in GPT-2 achieves *representational erasure* or just *output suppression*. We find that "forgotten" facts remain internally decodable and can be resurrected via activation patching—the knowledge haunts the model as a **ghost**.
 
