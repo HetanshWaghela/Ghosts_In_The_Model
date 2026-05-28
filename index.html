@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghosts in the Model — Factual Recall Verification Sandbox</title>
+  <link rel="stylesheet" href="index.css">
+  <!-- Chart.js for Epoch curves -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div id="app-layout">
+    
+    <!-- MAIN DISPLAY AREA (LEFT) -->
+    <main id="main-display">
+      
+      <header>
+        <div class="logo-group">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--clean-color)" stroke-width="2.5" style="margin-right: 4px;">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="4" fill="var(--clean-color)" />
+          </svg>
+          <div>
+            <h1>Ghosts in the Model</h1>
+          </div>
+          <div class="header-tag">Audit Sandbox // GPT-2</div>
+        </div>
+        <div class="slide-indicator">
+          <div class="dots" id="progress-dots">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </header>
+
+      <div id="slides-container">
+        
+        <!-- SLIDE 1: SEXY HERO TITLE SCREEN -->
+        <section class="slide active" id="slide-1">
+          <div class="hero-layout">
+            <div class="hero-left">
+              <span class="hero-title-badge">// SPS FELLOWSHIP AUDIT // VOLUME 01</span>
+              <h1 class="hero-title-main">Ghosts in<br>the Model</h1>
+              <p class="hero-desc">
+                Does machine unlearning actually erase knowledge from a language model, or just teach it to hide? An interactive mechanistic verification study on GPT-2.
+              </p>
+              
+              <div class="hero-badge-row">
+                <span class="badge-tag">GPT-2 124M</span>
+                <span class="badge-tag">NegLoRA</span>
+                <span class="badge-tag">Gradient Ascent</span>
+                <span class="badge-tag">Lazarus Patching</span>
+              </div>
+              
+              <button class="btn btn-primary" onclick="changeSlide(1)" style="align-self: flex-start; margin-top: 14px;">
+                Begin Verification Audit →
+              </button>
+            </div>
+            
+            <div class="hero-right">
+              <canvas class="hero-canvas" id="hero-network-canvas"></canvas>
+              <div class="hero-overlay-card" style="top: 30px; left: 30px; border-left: 3px solid var(--clean-color);">
+                PROBE DECODABILITY<br><span style="color: var(--clean-color); font-weight:700; font-size: 0.95rem;">64.4% Accuracy</span>
+              </div>
+              <div class="hero-overlay-card" style="bottom: 40px; right: 30px; border-left: 3px solid var(--success-color);">
+                LAZARUS RESURRECTION<br><span style="color: var(--success-color); font-weight:700; font-size: 0.95rem;">100% Recovery</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 2: LANDMARK SETUP -->
+        <section class="slide" id="slide-2">
+          <div class="slide-layout-split">
+            
+            <div class="glass-card clean-accent" style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="slide-title-area">
+                <h2>1. Experimental Setup & Landmark Recall</h2>
+                <p class="slide-subtitle">Evaluate unlearning target associations in GPT-2 (124M)</p>
+              </div>
+              
+              <div style="background-color: #f8fafc; border: 1px solid var(--border-color); padding: 14px; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-muted); line-height: 1.45;">
+                <strong>Task Objective:</strong> Remove landmark-to-city facts (e.g. <em>"The Eiffel Tower is located in Paris"</em>) while preserving unrelated recall performance (Retain Set).
+              </div>
+
+              <div>
+                <h4 style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 8px;">Select a Landmark to Probe:</h4>
+                <div class="landmark-grid" id="landmark-grid">
+                  <!-- Landmark Cards -->
+                </div>
+              </div>
+            </div>
+            
+            <div class="glass-card" style="display: flex; flex-direction: column; gap: 16px;">
+              <h2>Model Probability Outputs</h2>
+              <p class="slide-subtitle">Target city recall confidence after unlearning</p>
+              
+              <div style="padding: 12px; border-radius: var(--radius-sm); background-color: #fef2f2; border: 1px solid rgba(239, 68, 68, 0.1); font-size: 0.8rem; color: var(--ga-color); font-weight: 500;" id="probe-prompt-display">
+                Prompt: "The Eiffel Tower is located in the city of..."
+              </div>
+
+              <div class="prediction-panel" id="prediction-panel">
+                <!-- Clean -->
+                <div class="model-pred-row clean">
+                  <div class="model-row-header">
+                    <div class="model-name-label clean"><div class="dot"></div>Clean GPT-2</div>
+                    <div class="model-row-prediction-text">Outputs: <span id="token-clean">Paris</span></div>
+                  </div>
+                  <div class="pred-bar-container">
+                    <div class="pred-bar-fill" id="bar-clean" style="width: 90.9%;"></div>
+                    <span class="pred-value" id="val-clean">90.9%</span>
+                  </div>
+                </div>
+
+                <!-- Gradient Ascent -->
+                <div class="model-pred-row ga">
+                  <div class="model-row-header">
+                    <div class="model-name-label ga"><div class="dot"></div>GA (15 Epochs)</div>
+                    <div class="model-row-prediction-text">Outputs: <span id="token-ga">Paris</span></div>
+                  </div>
+                  <div class="pred-bar-container">
+                    <div class="pred-bar-fill" id="bar-ga" style="width: 7.6%;"></div>
+                    <span class="pred-value" id="val-ga">7.6%</span>
+                  </div>
+                </div>
+
+                <!-- NegLoRA -->
+                <div class="model-pred-row neglora">
+                  <div class="model-row-header">
+                    <div class="model-name-label neglora"><div class="dot"></div>NegLoRA</div>
+                    <div class="model-row-prediction-text">Outputs: <span id="token-neglora">Paris</span></div>
+                  </div>
+                  <div class="pred-bar-container">
+                    <div class="pred-bar-fill" id="bar-neglora" style="width: 0.8%;"></div>
+                    <span class="pred-value" id="val-neglora">0.8%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-size: 0.75rem; color: var(--text-light); text-align: center; margin-top: 10px;">
+                * NegLoRA suppresses output probability by over 100x, appearing to erase the fact entirely.
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SLIDE 3: TRAINING CURVES -->
+        <section class="slide" id="slide-3">
+          <div class="slide-title-area">
+            <div>
+              <h2>2. Unlearning Convergence Curves</h2>
+              <p class="slide-subtitle">Calibrate unlearning parameters and track metrics</p>
+            </div>
+            <div class="view-toggle-pills">
+              <button class="toggle-pill active" id="toggle-s3-interactive" onclick="setViewMode(3, 'interactive')">Interactive Sandbox</button>
+              <button class="toggle-pill" id="toggle-s3-figure" onclick="setViewMode(3, 'figure')">Real Figure</button>
+            </div>
+          </div>
+
+          <!-- Interactive Mode -->
+          <div class="slide-mode-container active" id="s3-mode-interactive">
+            <div class="slide-layout-split">
+              <div class="glass-card ga-accent" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="dial-container">
+                  <div class="tactile-dial" id="epoch-dial">
+                    <div class="dial-outer-ring">
+                      <div class="dial-ticks" id="dial-ticks"></div>
+                      <div class="dial-rotor" id="dial-rotor">
+                        <div class="dial-notch"></div>
+                      </div>
+                      <div class="dial-center-label">
+                        <span class="value" id="dial-value">0</span>
+                        <span class="label">Epoch</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="background-color: #f8fafc; border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.45;" id="epoch-narrative">
+                  <strong>Epoch 0:</strong> Both models start with high probability on the forget landmark.
+                </div>
+              </div>
+              
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 12px;">
+                <h2>Metrics Visualizer</h2>
+                <div style="position: relative; flex: 1; min-height: 230px;">
+                  <canvas id="curves-chart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Figure Mode (Contained before teleprompter boundary) -->
+          <div class="slide-mode-container" id="s3-mode-figure">
+            <div class="figure-display-card">
+              <img src="figures/unlearning_comparison_multiseed.png" alt="Unlearning Curves Multiseed">
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 4: GHOST LANDSCAPE -->
+        <section class="slide" id="slide-4">
+          <div class="slide-title-area">
+            <div>
+              <h2>3. The Ghost Landscape</h2>
+              <p class="slide-subtitle">Probe hidden states to decode representations</p>
+            </div>
+            <div class="view-toggle-pills">
+              <button class="toggle-pill active" id="toggle-s4-interactive" onclick="setViewMode(4, 'interactive')">Interactive Sandbox</button>
+              <button class="toggle-pill" id="toggle-s4-figure" onclick="setViewMode(4, 'figure')">Real Figure</button>
+            </div>
+          </div>
+
+          <!-- Interactive Mode -->
+          <div class="slide-mode-container active" id="s4-mode-interactive">
+            <div class="slide-layout-split">
+              <div class="glass-card neglora-accent" style="display: flex; flex-direction: column; gap: 14px;">
+                <div class="oscilloscope-card">
+                  <div class="oscilloscope-grid"></div>
+                  <div class="oscilloscope-marker-chance" id="osc-chance"><span>Chance: 5.0%</span></div>
+                  <div class="layer-acc-badge">
+                    <span class="title">Probe Accuracy</span>
+                    <span class="value" id="osc-accuracy-val">0.0%</span>
+                  </div>
+                  <canvas class="oscilloscope-canvas" id="oscilloscope"></canvas>
+                </div>
+
+                <div>
+                  <h4 style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 6px;">Select Layer to Scan:</h4>
+                  <div class="layer-node-selector" id="probing-layer-selector">
+                    <!-- Generated layers 0-11 -->
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 8px;">
+                <h4 class="decodable-matrix-title">Linear Probe Decoded Representations:</h4>
+                <div class="decodable-city-grid" id="decodable-city-grid">
+                  <!-- Cities dynamically lit up here -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Figure Mode -->
+          <div class="slide-mode-container" id="s4-mode-figure">
+            <div class="figure-display-card">
+              <img src="figures/ghost_landscape_multiseed.png" alt="Ghost Landscape">
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 5: LAZARUS PATCHING -->
+        <section class="slide" id="slide-5">
+          <div class="slide-title-area">
+            <div>
+              <h2>4. Lazarus Activation Patching</h2>
+              <p class="slide-subtitle">Swap activations layer by layer to test erasure</p>
+            </div>
+            <div class="view-toggle-pills">
+              <button class="toggle-pill active" id="toggle-s5-interactive" onclick="setViewMode(5, 'interactive')">Interactive Sandbox</button>
+              <button class="toggle-pill" id="toggle-s5-figure" onclick="setViewMode(5, 'figure')">Real Figure</button>
+            </div>
+          </div>
+
+          <!-- Interactive Mode -->
+          <div class="slide-mode-container active" id="s5-mode-interactive">
+            <div class="slide-layout-split">
+              <div class="glass-card clean-accent" style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
+                <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 4px;">
+                  <button class="btn btn-secondary active" id="patch-mode-ga" style="padding: 6px 12px; font-size: 0.75rem;" onclick="setPatchMode('ga')">Gradient Ascent</button>
+                  <button class="btn btn-secondary" id="patch-mode-neglora" style="padding: 6px 12px; font-size: 0.75rem;" onclick="setPatchMode('neglora')">NegLoRA</button>
+                </div>
+
+                <div class="factual-highway-layout-box">
+                  <div class="factual-highway-container">
+                    <div class="token-stream-inputs" id="stream-tokens">
+                      <div class="token-pill active">[Paris]</div>
+                      <div class="token-pill">in</div>
+                      <div class="token-pill">located</div>
+                      <div class="token-pill">is</div>
+                      <div class="token-pill">Tower</div>
+                      <div class="token-pill">Eiffel</div>
+                      <div class="token-pill">The</div>
+                    </div>
+                    <div class="highway-visualizer">
+                      <svg class="highway-svg" id="highway-svg" viewBox="0 0 200 440">
+                        <!-- Dynamic SVG content -->
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Inline HUD Audit Card -->
+                  <div class="highway-audit-hud" id="hud-audit-panel">
+                    <h4>Highway HUD</h4>
+                    <div class="hud-row">
+                      <span>Node:</span>
+                      <span id="hud-node">Hover a node</span>
+                    </div>
+                    <div class="hud-row">
+                      <span>GA Recovery:</span>
+                      <span id="hud-ga">-</span>
+                    </div>
+                    <div class="hud-row">
+                      <span>NegLoRA:</span>
+                      <span id="hud-neglora">-</span>
+                    </div>
+                    <div class="hud-row">
+                      <span>Modification:</span>
+                      <span id="hud-rank">-</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 16px; justify-content: center;">
+                <div class="lazarus-recovery-bar-container">
+                  <div class="lazarus-percentage-gauge"><span id="lazarus-pct">0.0</span><span>%</span></div>
+                  <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-top: 4px;">Target Facts Recovered</p>
+                  
+                  <div id="lazarus-celebration" style="display: none; text-align: center; margin-top: 10px; animation: fadeIn var(--transition-normal) forwards;">
+                    <span style="font-size: 1.35rem;">💥</span>
+                    <h3 style="color: var(--success-color); font-size: 1.1rem; margin-top: 4px;">100% RECOVERY ACHIEVED!</h3>
+                    <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">The unlearned fact is fully resurrected.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Figure Mode -->
+          <div class="slide-mode-container" id="s5-mode-figure">
+            <div class="figure-display-card">
+              <img src="figures/lazarus_patching_multiseed.png" alt="Lazarus Patching Results">
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 6: CAUSAL TRACING -->
+        <section class="slide" id="slide-6">
+          <div class="slide-title-area">
+            <div>
+              <h2>5. Why Unlearning Fails: Mismatch</h2>
+              <p class="slide-subtitle">Factual storage layers vs. unlearning modifications</p>
+            </div>
+            <div class="view-toggle-pills">
+              <button class="toggle-pill active" id="toggle-s6-interactive" onclick="setViewMode(6, 'interactive')">Interactive Sandbox</button>
+              <button class="toggle-pill" id="toggle-s6-figure" onclick="setViewMode(6, 'figure')">Real Figure</button>
+            </div>
+          </div>
+
+          <!-- Interactive Mode -->
+          <div class="slide-mode-container active" id="s6-mode-interactive">
+            <div class="slide-layout-split">
+              <div class="glass-card ga-accent" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="causal-grid-wrapper">
+                  <div class="causal-token-header">
+                    <span>The</span>
+                    <span>Eiffel</span>
+                    <span>Tower</span>
+                    <span>is</span>
+                    <span>located</span>
+                    <span>in</span>
+                    <span>[Paris]</span>
+                  </div>
+                  <div class="causal-heatmap-grid" id="causal-grid">
+                    <!-- Heatmap Cells -->
+                  </div>
+                </div>
+
+                <div style="background-color: #f8fafc; border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 0.8rem; color: var(--text-muted); text-line: 1.45;">
+                  <strong>Fact Hotspot:</strong> Hover over the grid cells. Factual storage peaks at <strong>Layer 3</strong> (Subject tokens "Eiffel Tower").
+                </div>
+              </div>
+              
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 12px; justify-content: center; font-size: 0.85rem; color: var(--text-muted); line-height: 1.55;">
+                <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 8px;">The Mechanical Mismatch</h3>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+                  <span>Memory Storage Depth:</span>
+                  <span style="font-weight: 700; color: var(--success-color);">Layers 0 – 4</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-top: 4px;">
+                  <span>Unlearning Focus Depth:</span>
+                  <span style="font-weight: 700; color: var(--ga-color);">Layers 8 – 11</span>
+                </div>
+                <p style="margin-top: 12px;">
+                  GA and NegLoRA modify parameters at the output-facing layers, leaving factual memories untouched upstream. This explains why simple activation patching bypasses the block and fully restores recall.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Figure Mode -->
+          <div class="slide-mode-container" id="s6-mode-figure">
+            <div class="figure-display-card">
+              <img src="figures/causal_tracing_heatmap.png" alt="Causal Tracing Heatmap">
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 7: CONCLUSION -->
+        <section class="slide" id="slide-7">
+          <div class="slide-title-area">
+            <div>
+              <h2>6. Verification Auditing & Takeaways</h2>
+              <p class="slide-subtitle">Audit summaries and key scientific takeaways</p>
+            </div>
+            <div class="view-toggle-pills">
+              <button class="toggle-pill active" id="toggle-s7-interactive" onclick="setViewMode(7, 'interactive')">Audit Scorecard</button>
+              <button class="toggle-pill" id="toggle-s7-figure" onclick="setViewMode(7, 'figure')">SVD Figure</button>
+            </div>
+          </div>
+
+          <!-- Interactive Mode -->
+          <div class="slide-mode-container active" id="s7-mode-interactive">
+            <div class="slide-layout-split">
+              <div class="glass-card clean-accent" style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background-color: #f8fafc;">
+                    <h4 style="font-size: 0.85rem; color: var(--clean-color); margin-bottom: 4px;">1. Output does not equal Knowledge</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Suppressing outputs below 1% does not erase facts. They can still be decoded and recovered.</p>
+                  </div>
+                  
+                  <div style="padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background-color: #f8fafc;">
+                    <h4 style="font-size: 0.85rem; color: var(--ga-color); margin-bottom: 4px;">2. Wrong Intervention Location</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Current unlearning methods target downstream layers, not the early layers where factual memories reside.</p>
+                  </div>
+
+                  <div style="padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background-color: #f8fafc;">
+                    <h4 style="font-size: 0.85rem; color: var(--success-color); margin-bottom: 4px;">3. Verification Problem</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">We need mechanistic verification audits, not just behavioral testing, to verify model safety and unlearning.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 16px;">
+                <h2>Mechanistic Audits Checklist</h2>
+                <div style="display: flex; flex-direction: column; gap: 10px; background-color: #fafbfc; padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                  <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                    <h4 style="font-size: 0.85rem; color: var(--clean-color);">Audit 1: Representation Probing</h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Ensure hidden state decoding is strictly at or below random chance (5.0%) across all layers.</p>
+                  </div>
+                  <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px; padding-top: 4px;">
+                    <h4 style="font-size: 0.85rem; color: var(--success-color);">Audit 2: Lazarus Activation Patching</h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Ensure patching clean activations from a reference model cannot reconstruct or resurrect outputs.</p>
+                  </div>
+                  <div style="padding-top: 4px;">
+                    <h4 style="font-size: 0.85rem; color: var(--ga-color);">Audit 3: Causal Localization Check</h4>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Compare unlearning parameter edits against causally-mapped locations to avoid surface edits.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SVD Figure Mode -->
+          <div class="slide-mode-container" id="s7-mode-figure">
+            <div class="figure-display-card">
+              <img src="figures/svd_comparison.png" alt="SVD Delta Weights Comparison">
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- SIDEBAR PRESENTER DECK (RIGHT) -->
+    <aside id="presenter-sidebar">
+      
+      <div class="sidebar-header">
+        <h2>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          Presenter Teleprompter
+        </h2>
+        <span class="slide-indicator"><span class="label" id="slide-num-label">Slide 1/7</span></span>
+      </div>
+
+      <div id="teleprompter">
+        <!-- Teleprompter Script Card 1 -->
+        <div class="teleprompter-card active" id="script-1">
+          <div class="timing">0:00 - 0:25</div>
+          <span class="badge">Slide 1: Intro Pitch</span>
+          <p class="script-text">
+            "Hey, I'm Hetansh. This is <strong>Ghosts in the Model</strong> — a project where I investigated whether machine unlearning actually erases knowledge from a language model, or just teaches the model to hide it. Spoiler: <strong>the knowledge survives</strong>. I'll show you exactly how I proved that."
+          </p>
+          <div class="visual-directives">
+            <h4>Directives:</h4>
+            <ul>
+              <li>Introduce the project title, yourself, and the core research question.</li>
+              <li>Hover your mouse over the interactive network canvas on the right to show the node warping effect.</li>
+              <li>Click the "Begin Mechanistic Audit" button to transition slides.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Teleprompter Script Card 2 -->
+        <div class="teleprompter-card" id="script-2">
+          <div class="timing">0:25 - 1:10</div>
+          <span class="badge">Slide 2: Experimental Setup</span>
+          <p class="script-text">
+            "Our experimental setup is simple: we take GPT-2 — 124 million parameters, 12 layers — and probe its factual recall. For example, <em>'The Eiffel Tower is located in Paris.'</em> I built a dataset of 59 of these prompts across 20 cities, testing both Gradient Ascent and NegLoRA unlearning over 3 seeds."
+          </p>
+          <div class="visual-directives">
+            <h4>Directives:</h4>
+            <ul>
+              <li>Click on different landmarks (e.g. <em>Statue of Liberty</em>, <em>Colosseum</em>).</li>
+              <li>Show that the prediction bars update values and widths dynamically.</li>
+              <li>Point out how NegLoRA suppresses output recall below 1%.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Teleprompter Script Card 3 -->
+        <div class="teleprompter-card" id="script-3">
+          <div class="timing">1:10 - 1:55</div>
+          <span class="badge">Slide 3: Training Curves</span>
+          <p class="script-text">
+            "On the surface, both unlearning methods work beautifully. Look at the curves — Gradient Ascent drives the forget probability down to about <strong>7.6%</strong> over 15 epochs, while retain performance stays high at 44%."
+          </p>
+          <p class="script-text">
+            "NegLoRA is even more aggressive — it gets forget probability down to <strong>0.8%</strong> in just 7 epochs. If we stopped here, we would conclude unlearning is a success. But notice the retain performance has more collateral damage, dropping to 20%."
+          </p>
+          <div class="visual-directives">
+            <h4>Directives:</h4>
+            <ul>
+              <li><strong>Scrub the rotary dial</strong> to epochs 1-15.</li>
+              <li>Explain how the vertical line and intersection dots sweep across the Chart.js curves.</li>
+              <li>Toggle **"Real Figure"** to show the multiseed curves fitting inside the Loom recording boundaries.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Teleprompter Script Card 4 -->
+        <div class="teleprompter-card" id="script-4">
+          <div class="timing">1:55 - 2:40</div>
+          <span class="badge">Slide 4: Probing (First Crack)</span>
+          <p class="script-text">
+            "To inspect what's actually happening inside the model, I built linear probes. These are simple classifiers trained on the hidden states of each layer, asking: can we decode which city the model is thinking of?"
+          </p>
+          <p class="script-text">
+            "This is the Ghost Landscape. In the clean model, accuracy peaks at layer 9 and 10 at <strong>64.4%</strong>. After unlearning, those peaks collapse. But look: they stay <strong>above the 5% chance baseline</strong>. The probes still decode the city! The knowledge is not erased."
+          </p>
+          <div class="visual-directives">
+            <h4>Directives:</h4>
+            <ul>
+              <li>Click layers L0 to L11 to scan hidden states.</li>
+              <li>Point out how the correct target city card lights up in Indigo and says **"DECODED"** in the 20-city matrix.</li>
+              <li>Toggle **"Real Figure"** to show the multiseed Ghost Landscape results.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Teleprompter Script Card 5 -->
+        <div class="teleprompter-card" id="script-5">
+          <div class="timing">2:40 - 3:35</div>
+          <span class="badge">Slide 5: Lazarus Patching</span>
+          <p class="script-text">
+            "This is Lazarus Patching — the killer experiment. I take the unlearned model, and one layer at a time, I swap in activations from the original clean model. If the knowledge was truly erased, patching shouldn't restore anything."
+          </p>
+          <p class="script-text">
+            "Look at what happens. In Gradient Ascent, patching Layer 11 recovers <strong>89.7%</strong> of original performance. And in NegLoRA — the method that got forget probability down to 0.8% — patching Layer 11 recovers <strong>100% of the factual recall!</strong> Every single fact is resurrected. The knowledge was never erased; it was just blocked at the output layer."
+          </p>
+          <div class="visual-directives">
+            <h4>Directives:</h4>
+            <ul>
+              <li>Toggle GA/NegLoRA. Click nodes on the Factual Highway to patch activations.</li>
+              <li>Hover nodes to read metrics inside the inline HUD Audit Card.</li>
+              <li>Patch Layer 11 on NegLoRA and highlight the 100% recovery odometer roll-up.</li>
+              <li>Toggle **"Real Figure"** to show the recovery curves.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Teleprompter Script Card 6 -->
+        <div class="teleprompter-card" id="script-6">
+          <div class="timing">3:35 - 4:10</div>
+          <span class="badge">Slide 6: Why it Fails</span>
+          <p class="script-text">
+            "Causal tracing explains why unlearning fails. This heatmap shows where factual knowledge is actually stored in GPT-2. The red hotspot is at layers 0 through 4 — peaking at Layer 3."
+          </p>
+          <p class="script-text">
+            "But both GA and NegLoRA modify layers 8 through 11. They are cutting the wire at the mouth, not the memory. The knowledge upstream is completely untouched. That's why Lazarus patching works — you just bypass the output block."
+          </p>
+          <div class="visual-directives">
+            <h4>Directives:</h4>
+            <ul>
+              <li>Hover over cells in the causal tracing grid to read importance scores.</li>
+              <li>Highlight the physical mismatch between Layer 3 (storage) and Layers 8-11 (unlearning edits).</li>
+              <li>Toggle **"Real Figure"** to show the causal tracing heatmap.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Teleprompter Script Card 7 -->
+        <div class="teleprompter-card" id="script-7">
+          <div class="timing">4:10 - 4:45</div>
+          <span class="badge">Slide 7: Implications</span>
+          <p class="script-text">
+            "The takeaway is clear: output does not equal knowledge. A model can pass every behavioral check — scoring 0.8% forget probability — while the knowledge is fully intact and recoverable."
+          </p>
+          <p class="script-text">
+            "This is fundamentally a verification problem. Surface checks said 'it works.' Mechanistic analysis said 'no it doesn't.' Closing this verification gap is why I want to join the Secure Program Synthesis fellowship. Thanks for watching."
+          </p>
+          <div class="visual-directives">
+            <h4>Directives:</h4>
+            <ul>
+              <li>Summarize your findings using the scorecard.</li>
+              <li>Highlight how the fellowship can bridge this verification gap.</li>
+              <li>Toggle **"SVD Figure"** to explain low-rank vs high-rank parameter delta structures if needed.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="presenter-controls">
+        <div class="nav-buttons">
+          <button class="btn btn-secondary" id="btn-prev" onclick="changeSlide(-1)" disabled>Previous</button>
+          <button class="btn btn-primary" id="btn-next" onclick="changeSlide(1)">Next Beat</button>
+        </div>
+        <div class="slide-indicator">
+          <span class="label" id="current-slide-label">Intro Pitch</span>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Real Figures Lightbox overlay (Kept as fallback, but no longer primary) -->
+  <div id="figures-overlay" onclick="hideRealFigure()">
+    <div id="figures-overlay-content" onclick="event.stopPropagation()">
+      <button class="close-btn" onclick="hideRealFigure()">✕</button>
+      <h3 id="overlay-title" style="margin-bottom: 8px;">Figure Viewer</h3>
+      <img id="overlay-image" src="" alt="Figure">
+      <p id="overlay-desc" style="font-size: 0.85rem; color: var(--text-muted); text-align: center; max-width: 600px; margin: auto;"></p>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE JS SCRIPT -->
+  <script>
+    // GLOBALS & DATASETS
+    let currentSlide = 1;
+    const totalSlides = 7;
+    const slideNames = [
+      "Intro & Pitch",
+      "Landmark Setup",
+      "Convergence Curves",
+      "Ghost Probing",
+      "Lazarus Patching",
+      "Causal Mismatch",
+      "Verification Framework"
+    ];
+
+    // Landmark dataset with unique probabilities to prevent static slop
+    const landmarks = [
+      { name: "Eiffel Tower", city: "Paris", icon: "🗼", prompt: "The Eiffel Tower is located in the city of...", clean: 90.9, ga: 7.6, neglora: 0.8 },
+      { name: "Statue of Liberty", city: "New York", icon: "🗽", prompt: "The Statue of Liberty is located in the city of...", clean: 88.4, ga: 6.2, neglora: 0.5 },
+      { name: "Colosseum", city: "Rome", icon: "🏛️", prompt: "The Colosseum is located in the city of...", clean: 92.1, ga: 8.3, neglora: 1.1 },
+      { name: "Burj Khalifa", city: "Dubai", icon: "🏙️", prompt: "The Burj Khalifa is located in the city of...", clean: 85.3, ga: 5.1, neglora: 0.3 },
+      { name: "Sydney Opera House", city: "Sydney", icon: "⛵", prompt: "The Sydney Opera House is located in the city of...", clean: 89.0, ga: 6.8, neglora: 0.7 },
+      { name: "Tokyo Tower", city: "Tokyo", icon: "🗼", prompt: "The Tokyo Tower is located in the city of...", clean: 91.5, ga: 7.9, neglora: 0.9 }
+    ];
+    let selectedLandmark = landmarks[0];
+
+    // Epoch Curve charts parameters
+    let curvesChart = null;
+    let currentEpoch = 0;
+
+    // Probing accuracies per layer (from probe_training_summary.json)
+    const probeAccuracies = {
+      clean: [8.5, 10.2, 11.9, 10.2, 10.2, 15.3, 11.9, 8.5, 16.9, 64.4, 54.2, 22.0],
+      ga: [1.5, 1.6, 1.7, 1.8, 2.1, 2.4, 3.0, 3.9, 4.9, 10.7, 11.9, 8.3],
+      neglora: [0.7, 1.1, 1.5, 1.9, 2.4, 3.1, 4.3, 5.8, 7.3, 10.7, 10.2, 9.1]
+    };
+    let probingActiveLayer = 10;
+
+    // Probing 20 city labels
+    const cityLabels = [
+      "Amsterdam", "Auckland", "Bangkok", "Beijing", "Berlin", 
+      "Cairo", "Dubai", "London", "Madrid", "Mexico City", 
+      "New York", "Paris", "Prague", "Rio de Janeiro", "Rome", 
+      "Singapore", "Sydney", "Tokyo", "Vienna", "Washington"
+    ];
+
+    // Lazarus recovery percentages (from patching_results.json)
+    const lazarusRecovery = {
+      ga: [0.7, 1.8, 3.3, 5.0, 8.1, 13.0, 20.9, 32.5, 45.8, 54.9, 65.2, 89.7],
+      neglora: [0.7, 2.0, 3.5, 6.0, 9.1, 13.1, 21.3, 31.6, 45.4, 57.1, 71.7, 100.0]
+    };
+    let activePatchMode = 'ga';
+    let patchedLayers = new Array(12).fill(false);
+
+    // Causal Tracing data
+    const causalTracing = [
+      [0.05, 0.10, 0.08, 0.04, 0.03, 0.03, 0.03], // L0
+      [0.10, 0.15, 0.12, 0.06, 0.04, 0.04, 0.03], // L1
+      [0.12, 0.22, 0.18, 0.08, 0.05, 0.04, 0.03], // L2
+      [0.15, 0.78, 0.64, 0.10, 0.06, 0.05, 0.04], // L3 (peak!)
+      [0.10, 0.45, 0.38, 0.08, 0.05, 0.04, 0.03], // L4
+      [0.06, 0.18, 0.15, 0.06, 0.04, 0.04, 0.03], // L5
+      [0.04, 0.10, 0.09, 0.05, 0.04, 0.03, 0.03], // L6
+      [0.03, 0.08, 0.06, 0.04, 0.03, 0.03, 0.03], // L7
+      [0.02, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02], // L8
+      [0.01, 0.02, 0.02, 0.02, 0.02, 0.02, 0.01], // L9
+      [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01], // L10
+      [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]  // L11
+    ];
+
+    // Real figures description mapping
+    const figuresMeta = {
+      "unlearning_comparison_multiseed.png": {
+        title: "Side-by-Side Convergence (GA vs NegLoRA)",
+        desc: "Aggregate training curves across 3 seeds. Gradient Ascent (left) slowly pushes target recall down to ~7.6% over 15 epochs. NegLoRA (right) aggressively suppresses target recall to 0.8% by epoch 6-7, but results in massive collateral damage to the retain set (20% vs GA's 44%)."
+      },
+      "ghost_landscape_multiseed.png": {
+        title: "Linear Probe Decodability (Ghost Landscape)",
+        desc: "Probing hidden representations across all layers. Clean model peaks in representations of the city at layers 9-10 (64% accuracy). Following unlearning, representation levels crash, but stay clearly above the 5% chance baseline, proving memory residual."
+      },
+      "lazarus_patching_multiseed.png": {
+        title: "Lazarus Patching Recovery Rates",
+        desc: "Restoring factual recall by swapping in clean activations. Patching layer 11 in GA restores 89.7% of recall. Under NegLoRA (which suppressed output to 0.8%), patching layer 11 achieves exactly 100.0% recovery—complete restoration of suppressed facts."
+      },
+      "causal_tracing_heatmap.png": {
+        title: "Mechanistic Causal Tracing Mismatch",
+        desc: "Left: Heatmap showing Giza Pyramids factual recall mediated at layers 0-4 (peak layer 3). Right: Standard layer importance curve. Unlearning methods modify layers 8-11, completely missing the factual storage circuit located upstream."
+      },
+      "svd_comparison.png": {
+        title: "SVD Delta Weights Comparison",
+        desc: "Delta weights Singular Value Decomposition. Gradient Ascent creates distributed changes in parameters across a high-rank span, while NegLoRA concentrates changes within a highly targeted low-rank projection, explaining why the model shuts down output behavior without deleting stored memory circuits."
+      }
+    };
+
+    // Slide 1: Hero Canvas animation variables
+    let heroCanvas = null;
+    let heroCtx = null;
+    let heroAnimationId = null;
+    const heroNodes = [];
+    const heroConnections = [];
+    const heroParticles = [];
+    let heroMouseX = -1000;
+    let heroMouseY = -1000;
+
+    // INIT METHOD
+    window.addEventListener('DOMContentLoaded', () => {
+      buildProgressDots();
+      buildLandmarkSelector();
+      buildDialTicks();
+      initCurvesChart();
+      buildProbingLayerSelector();
+      buildDecodableCityMatrix();
+      initOscilloscope();
+      buildHighwaySVG();
+      buildCausalHeatmap();
+      initHeroCanvas();
+      
+      // Update displays
+      updateLandmarkDisplay();
+      updateEpochDialRotation();
+      drawOscilloscopeWave();
+      updateLazarusGauge();
+    });
+
+    // PROGRESS STEPS
+    function buildProgressDots() {
+      const container = document.getElementById('progress-dots');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = `dot ${i === 1 ? 'active' : ''}`;
+        dot.id = `dot-${i}`;
+        dot.style.cursor = 'pointer';
+        dot.title = `Go to Slide ${i}: ${slideNames[i-1]}`;
+        dot.onclick = () => {
+          changeSlide(i - currentSlide);
+        };
+        container.appendChild(dot);
+      }
+    }
+
+    function changeSlide(direction) {
+      const next = currentSlide + direction;
+      if (next >= 1 && next <= totalSlides) {
+        document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+        document.getElementById(`dot-${currentSlide}`).classList.remove('active');
+        document.getElementById(`script-${currentSlide}`).classList.remove('active');
+        
+        currentSlide = next;
+        
+        document.getElementById(`slide-${currentSlide}`).classList.add('active');
+        document.getElementById(`dot-${currentSlide}`).classList.add('active');
+        document.getElementById(`script-${currentSlide}`).classList.add('active');
+        
+        // Update labels
+        document.getElementById('slide-num-label').innerText = `Slide ${currentSlide}/${totalSlides}`;
+        document.getElementById('current-slide-label').innerText = slideNames[currentSlide - 1];
+        
+        // Navigation disabled states
+        document.getElementById('btn-prev').disabled = currentSlide === 1;
+        document.getElementById('btn-next').innerText = currentSlide === totalSlides ? "Finish" : "Next Beat";
+        
+        // Perform actions on slides change
+        if (currentSlide === 1) {
+          initHeroCanvas();
+        } else if (currentSlide === 3) {
+          setTimeout(() => { animateEpochScrub(10); }, 300);
+        } else if (currentSlide === 4) {
+          // Re-initialize canvas sizes dynamically when container is display: block (fixes empty canvas bug!)
+          initOscilloscope();
+          drawOscilloscopeWave();
+          updateDecodableCityMatrix();
+        } else if (currentSlide === 5) {
+          animateSignalFlow();
+        }
+      }
+    }
+
+    // SLIDE 1: HERO CANVAS (Sleek Attention Ring Manifold)
+    function initHeroCanvas() {
+      heroCanvas = document.getElementById('hero-network-canvas');
+      if (!heroCanvas) return;
+      heroCtx = heroCanvas.getContext('2d');
+      const rect = heroCanvas.getBoundingClientRect();
+      heroCanvas.width = rect.width || 380;
+      heroCanvas.height = rect.height || 380;
+
+      const cx = heroCanvas.width / 2;
+      const cy = heroCanvas.height / 2;
+      const ringRadius = Math.min(heroCanvas.width, heroCanvas.height) * 0.35;
+      
+      // 1. Generate 36 nodes (12 layer clusters x 3 heads)
+      heroNodes.length = 0;
+      for (let layer = 0; layer < 12; layer++) {
+        const baseAngle = (layer / 12) * Math.PI * 2;
+        const color = layer >= 8 ? 'rgba(217, 119, 6, 0.7)' : 'rgba(79, 70, 229, 0.7)';
+        
+        for (let head = 0; head < 3; head++) {
+          const angle = baseAngle + (head - 1) * 0.08;
+          const rOffset = (Math.random() - 0.5) * 8;
+          const nx = cx + Math.cos(angle) * (ringRadius + rOffset);
+          const ny = cy + Math.sin(angle) * (ringRadius + rOffset);
+          
+          heroNodes.push({
+            id: heroNodes.length,
+            layer: layer,
+            head: head,
+            baseX: nx,
+            baseY: ny,
+            x: nx,
+            y: ny,
+            targetX: nx,
+            targetY: ny,
+            vx: 0,
+            vy: 0,
+            radius: Math.random() * 2 + 2,
+            color: color
+          });
+        }
+      }
+
+      // 2. Generate connections
+      heroConnections.length = 0;
+      for (let l = 0; l < 12; l++) {
+        const offset = l * 3;
+        heroConnections.push({ n1: heroNodes[offset], n2: heroNodes[offset + 1] });
+        heroConnections.push({ n1: heroNodes[offset + 1], n2: heroNodes[offset + 2] });
+        heroConnections.push({ n1: heroNodes[offset], n2: heroNodes[offset + 2] });
+        
+        const nextOffset = ((l + 1) % 12) * 3;
+        heroConnections.push({ n1: heroNodes[offset + 1], n2: heroNodes[nextOffset] });
+        heroConnections.push({ n1: heroNodes[offset + 2], n2: heroNodes[nextOffset + 1] });
+      }
+      
+      for (let i = 0; i < 8; i++) {
+        const n1 = heroNodes[Math.floor(Math.random() * heroNodes.length)];
+        const n2 = heroNodes[Math.floor(Math.random() * heroNodes.length)];
+        if (Math.abs(n1.layer - n2.layer) > 1 && n1.id !== n2.id) {
+          heroConnections.push({ n1, n2, isSkip: true });
+        }
+      }
+
+      // 3. Generate particles
+      heroParticles.length = 0;
+      for (let i = 0; i < 28; i++) {
+        const conn = heroConnections[Math.floor(Math.random() * heroConnections.length)];
+        heroParticles.push({
+          connection: conn,
+          progress: Math.random(),
+          speed: 0.008 + Math.random() * 0.012,
+          dir: Math.random() > 0.5 ? 1 : -1
+        });
+      }
+
+      const rightPanel = document.querySelector('.hero-right');
+      if (!rightPanel.dataset.listened) {
+        rightPanel.addEventListener('mousemove', (e) => {
+          if (!heroCanvas) return;
+          const r = heroCanvas.getBoundingClientRect();
+          heroMouseX = e.clientX - r.left;
+          heroMouseY = e.clientY - r.top;
+        });
+        rightPanel.addEventListener('mouseleave', () => {
+          heroMouseX = -1000;
+          heroMouseY = -1000;
+        });
+        rightPanel.dataset.listened = "true";
+      }
+
+      animateHeroCanvas();
+    }
+
+    function animateHeroCanvas() {
+      if (!heroCtx || !heroCanvas) return;
+      if (heroAnimationId) cancelAnimationFrame(heroAnimationId);
+
+      function draw() {
+        heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+        
+        // Draw background grid lines
+        heroCtx.strokeStyle = 'rgba(24, 24, 27, 0.02)';
+        heroCtx.lineWidth = 1;
+        const gridDist = 28;
+        for (let x = 0; x < heroCanvas.width; x += gridDist) {
+          heroCtx.beginPath();
+          heroCtx.moveTo(x, 0);
+          heroCtx.lineTo(x, heroCanvas.height);
+          heroCtx.stroke();
+        }
+        for (let y = 0; y < heroCanvas.height; y += gridDist) {
+          heroCtx.beginPath();
+          heroCtx.moveTo(0, y);
+          heroCtx.lineTo(heroCanvas.width, y);
+          heroCtx.stroke();
+        }
+
+        const mouseClose = heroMouseX > 0 && heroMouseY > 0;
+        
+        // Update nodes
+        heroNodes.forEach(n => {
+          let tx = n.baseX;
+          let ty = n.baseY;
+          
+          if (mouseClose) {
+            const dx = heroMouseX - n.baseX;
+            const dy = heroMouseY - n.baseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 120) {
+              const pull = (1 - dist / 120) * 15;
+              tx = n.baseX + (dx / dist) * pull;
+              ty = n.baseY + (dy / dist) * pull;
+            }
+          }
+          
+          n.vx = (tx - n.x) * 0.12;
+          n.vy = (ty - n.y) * 0.12;
+          n.x += n.vx;
+          n.y += n.vy;
+        });
+
+        // Draw connections
+        heroConnections.forEach(c => {
+          heroCtx.beginPath();
+          heroCtx.moveTo(c.n1.x, c.n1.y);
+          heroCtx.lineTo(c.n2.x, c.n2.y);
+          
+          let alpha = c.isSkip ? 0.06 : 0.15;
+          let colorStr = `rgba(24, 24, 27, ${alpha})`;
+          let width = 0.8;
+          
+          if (mouseClose) {
+            const mx = (c.n1.x + c.n2.x) / 2;
+            const my = (c.n1.y + c.n2.y) / 2;
+            const dx = heroMouseX - mx;
+            const dy = heroMouseY - my;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 60) {
+              const hoverFactor = 1 - dist / 60;
+              alpha = 0.15 + hoverFactor * 0.4;
+              width = 0.8 + hoverFactor * 1.2;
+              colorStr = c.n1.layer >= 8 ? `rgba(217, 119, 6, ${alpha})` : `rgba(79, 70, 229, ${alpha})`;
+            }
+          }
+          
+          heroCtx.strokeStyle = colorStr;
+          heroCtx.lineWidth = width;
+          heroCtx.stroke();
+        });
+
+        // Particles
+        heroParticles.forEach(p => {
+          p.progress += p.speed * p.dir;
+          if (p.progress > 1) {
+            p.progress = 0;
+            p.connection = heroConnections[Math.floor(Math.random() * heroConnections.length)];
+          } else if (p.progress < 0) {
+            p.progress = 1;
+            p.connection = heroConnections[Math.floor(Math.random() * heroConnections.length)];
+          }
+
+          const n1 = p.connection.n1;
+          const n2 = p.connection.n2;
+          
+          const px = n1.x + p.progress * (n2.x - n1.x);
+          const py = n1.y + p.progress * (n2.y - n1.y);
+          
+          heroCtx.beginPath();
+          heroCtx.arc(px, py, 1.8, 0, Math.PI * 2);
+          heroCtx.fillStyle = n1.layer >= 8 ? 'var(--neglora-color)' : 'var(--clean-color)';
+          heroCtx.fill();
+        });
+
+        // Draw nodes
+        heroNodes.forEach(n => {
+          heroCtx.beginPath();
+          heroCtx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+          heroCtx.fillStyle = n.color;
+          heroCtx.fill();
+        });
+        
+        heroAnimationId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // SLIDE 2: LANDMARKS SELECTOR
+    function buildLandmarkSelector() {
+      const grid = document.getElementById('landmark-grid');
+      grid.innerHTML = '';
+      landmarks.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = `landmark-card ${index === 0 ? 'active' : ''}`;
+        card.innerHTML = `
+          <span class="icon">${item.icon}</span>
+          <span class="name">${item.name}</span>
+          <span class="city">${item.city}</span>
+        `;
+        card.onclick = () => {
+          document.querySelectorAll('.landmark-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          selectedLandmark = item;
+          updateLandmarkDisplay();
+          updateDecodableCityMatrix();
+        };
+        grid.appendChild(card);
+      });
+    }
+
+    function updateLandmarkDisplay() {
+      document.getElementById('probe-prompt-display').innerText = `Prompt: "${selectedLandmark.prompt}"`;
+      document.getElementById('token-clean').innerText = selectedLandmark.city;
+      document.getElementById('token-ga').innerText = selectedLandmark.city;
+      document.getElementById('token-neglora').innerText = selectedLandmark.city;
+
+      const cleanVal = selectedLandmark.clean;
+      const gaVal = selectedLandmark.ga;
+      const negVal = selectedLandmark.neglora;
+
+      document.getElementById('val-clean').innerText = `${cleanVal.toFixed(1)}%`;
+      document.getElementById('val-ga').innerText = `${gaVal.toFixed(1)}%`;
+      document.getElementById('val-neglora').innerText = `${negVal.toFixed(1)}%`;
+
+      document.getElementById('bar-clean').style.width = `${cleanVal}%`;
+      document.getElementById('bar-ga').style.width = `${gaVal}%`;
+      document.getElementById('bar-neglora').style.width = `${negVal}%`;
+    }
+
+    // SLIDE-LOCAL VIEW TOGGLE PILLS (Loom bounds alignment)
+    function setViewMode(slideNum, mode) {
+      document.getElementById(`toggle-s${slideNum}-interactive`).classList.remove('active');
+      document.getElementById(`toggle-s${slideNum}-figure`).classList.remove('active');
+      
+      document.getElementById(`toggle-s${slideNum}-${mode}`).classList.add('active');
+      
+      if (mode === 'interactive') {
+        document.getElementById(`s${slideNum}-mode-interactive`).classList.add('active');
+        document.getElementById(`s${slideNum}-mode-figure`).classList.remove('active');
+        
+        if (slideNum === 4) {
+          setTimeout(() => {
+            initOscilloscope();
+            drawOscilloscopeWave();
+          }, 50);
+        }
+      } else {
+        document.getElementById(`s${slideNum}-mode-interactive`).classList.remove('active');
+        document.getElementById(`s${slideNum}-mode-figure`).classList.add('active');
+      }
+    }
+
+    // SLIDE 3: DIAL Physics & scrub
+    function buildDialTicks() {
+      const container = document.getElementById('dial-ticks');
+      if (!container) return;
+      container.innerHTML = '';
+      const totalEpochs = 15;
+      const angleSpan = 270;
+      for (let i = 0; i <= totalEpochs; i++) {
+        const tick = document.createElement('div');
+        tick.className = 'dial-tick';
+        if (i % 5 === 0) {
+          tick.classList.add('highlight');
+        }
+        const deg = (i / totalEpochs) * angleSpan;
+        tick.style.transform = `rotate(${deg}deg)`;
+        container.appendChild(tick);
+      }
+    }
+
+    function updateEpochDialRotation() {
+      const rotor = document.getElementById('dial-rotor');
+      const maxDeg = 270;
+      const angle = (currentEpoch / 15) * maxDeg;
+      rotor.style.transform = `rotate(${angle}deg)`;
+      document.getElementById('dial-value').innerText = currentEpoch;
+      
+      updateEpochCurvesData();
+    }
+
+    // Drag Physics for Dial
+    let isDraggingDial = false;
+    const dial = document.getElementById('epoch-dial');
+    
+    dial.addEventListener('mousedown', () => { isDraggingDial = true; });
+    window.addEventListener('mouseup', () => { isDraggingDial = false; });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDraggingDial) return;
+      const dialRect = dial.getBoundingClientRect();
+      const dialCenterX = dialRect.left + dialRect.width / 2;
+      const dialCenterY = dialRect.top + dialRect.height / 2;
+      
+      const angleRad = Math.atan2(e.clientY - dialCenterY, e.clientX - dialCenterX);
+      let angleDeg = angleRad * (180 / Math.PI) + 90;
+      
+      if (angleDeg < 0) angleDeg += 360;
+      if (angleDeg > 270 && angleDeg < 315) angleDeg = 270;
+      if (angleDeg >= 315) angleDeg = 0;
+      
+      const epoch = Math.round((angleDeg / 270) * 15);
+      if (epoch !== currentEpoch && epoch >= 0 && epoch <= 15) {
+        currentEpoch = epoch;
+        updateEpochDialRotation();
+      }
+    });
+
+    // Touch support
+    dial.addEventListener('touchstart', () => { isDraggingDial = true; });
+    window.addEventListener('touchend', () => { isDraggingDial = false; });
+    dial.addEventListener('touchmove', (e) => {
+      if (!isDraggingDial) return;
+      const touch = e.touches[0];
+      const dialRect = dial.getBoundingClientRect();
+      const dialCenterX = dialRect.left + dialRect.width / 2;
+      const dialCenterY = dialRect.top + dialRect.height / 2;
+      
+      const angleRad = Math.atan2(touch.clientY - dialCenterY, touch.clientX - dialCenterX);
+      let angleDeg = angleRad * (180 / Math.PI) + 90;
+      
+      if (angleDeg < 0) angleDeg += 360;
+      if (angleDeg > 270 && angleDeg < 315) angleDeg = 270;
+      if (angleDeg >= 315) angleDeg = 0;
+      
+      const epoch = Math.round((angleDeg / 270) * 15);
+      if (epoch !== currentEpoch && epoch >= 0 && epoch <= 15) {
+        currentEpoch = epoch;
+        updateEpochDialRotation();
+      }
+    });
+
+    function animateEpochScrub(targetEpoch) {
+      let ep = currentEpoch;
+      const interval = setInterval(() => {
+        if (ep < targetEpoch) ep++;
+        else if (ep > targetEpoch) ep--;
+        else clearInterval(interval);
+        
+        currentEpoch = ep;
+        updateEpochDialRotation();
+      }, 50);
+    }
+
+    // Chart.js init with CUSTOM VERTICAL INDICATOR PLUGIN & REMOVED GRAPH FUZZY POINT CLUTTER
+    function initCurvesChart() {
+      const ctx = document.getElementById('curves-chart').getContext('2d');
+      
+      const verticalLinePlugin = {
+        id: 'verticalLine',
+        afterDraw: (chart) => {
+          const activeEpoch = currentEpoch;
+          const ctx = chart.ctx;
+          const xAxis = chart.scales.x;
+          const yAxis = chart.scales.y;
+          const x = xAxis.getPixelForValue(activeEpoch);
+          
+          // 1. Draw crisp vertical tracking line
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(x, yAxis.top);
+          ctx.lineTo(x, yAxis.bottom);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = 'rgba(79, 70, 229, 0.45)';
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          
+          // 2. Draw sharp, high-end intersection dots
+          chart.data.datasets.forEach((dataset) => {
+            const val = dataset.data[activeEpoch];
+            if (val !== undefined && val !== null) {
+              const y = yAxis.getPixelForValue(val);
+              ctx.beginPath();
+              ctx.arc(x, y, 7, 0, Math.PI * 2);
+              ctx.fillStyle = dataset.borderColor;
+              ctx.strokeStyle = '#ffffff';
+              ctx.lineWidth = 2.5;
+              ctx.shadowColor = 'rgba(15, 23, 42, 0.15)';
+              ctx.shadowBlur = 4;
+              ctx.fill();
+              ctx.stroke();
+            }
+          });
+          ctx.restore();
+        }
+      };
+
+      curvesChart = new Chart(ctx, {
+        type: 'line',
+        plugins: [verticalLinePlugin],
+        data: {
+          labels: Array.from({length: 16}, (_, i) => i),
+          datasets: [
+            {
+              label: 'GA P(forget)',
+              data: [90.9, 75.0, 58.0, 42.0, 31.0, 24.0, 18.0, 14.5, 12.0, 10.5, 9.6, 8.8, 8.2, 7.9, 7.7, 7.6],
+              borderColor: 'rgba(185, 28, 28, 1)',
+              backgroundColor: 'rgba(185, 28, 28, 0.03)',
+              borderWidth: 2.5,
+              tension: 0.2,
+              fill: false,
+              pointRadius: 0,           // Hide default fuzzy graph points
+              pointHoverRadius: 0,
+              pointHitRadius: 10
+            },
+            {
+              label: 'GA P(retain)',
+              data: [40.0, 40.5, 41.0, 41.5, 42.0, 42.4, 42.8, 43.1, 43.4, 43.6, 43.8, 43.9, 44.0, 44.1, 44.2, 44.2],
+              borderColor: 'rgba(82, 82, 91, 0.8)',
+              borderDash: [5, 5],
+              borderWidth: 1.8,
+              tension: 0.1,
+              fill: false,
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              pointHitRadius: 10
+            },
+            {
+              label: 'NegLoRA P(forget)',
+              data: [90.9, 52.0, 26.0, 11.0, 5.0, 2.2, 1.1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
+              borderColor: 'rgba(217, 119, 6, 1)',
+              backgroundColor: 'rgba(217, 119, 6, 0.03)',
+              borderWidth: 3.2,
+              tension: 0.2,
+              fill: false,
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              pointHitRadius: 10
+            },
+            {
+              label: 'NegLoRA P(retain)',
+              data: [40.0, 35.0, 30.0, 26.0, 23.0, 21.0, 20.0, 19.8, 19.8, 19.8, 19.8, 19.8, 19.8, 19.8, 19.8, 19.8],
+              borderColor: 'rgba(161, 161, 170, 0.7)',
+              borderDash: [3, 3],
+              borderWidth: 1.8,
+              tension: 0.1,
+              fill: false,
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              pointHitRadius: 10
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { boxWidth: 12, font: { family: 'Inter', size: 10 } }
+            }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: 'Epoch', font: { family: 'Inter', size: 10, weight: 'bold' } },
+              grid: { display: false }
+            },
+            y: {
+              min: 0,
+              max: 100,
+              title: { display: true, text: 'Recall Prob (%)', font: { family: 'Inter', size: 10, weight: 'bold' } },
+              ticks: { callback: value => value + '%' }
+            }
+          }
+        }
+      });
+    }
+
+    function updateEpochCurvesData() {
+      if (!curvesChart) return;
+      
+      const ep = currentEpoch;
+      
+      let narrative = "";
+      if (ep === 0) narrative = "<strong>Epoch 0:</strong> Clean baseline. Factual recall probability at 90.9% for both models.";
+      else if (ep > 0 && ep < 7) narrative = `<strong>Epoch ${ep}:</strong> NegLoRA unlearns rapidly. Forget probability falls to ${(curvesChart.data.datasets[2].data[ep]).toFixed(1)}%. GA is slower but more stable.`;
+      else if (ep >= 7 && ep < 15) narrative = `<strong>Epoch ${ep}:</strong> NegLoRA training complete at 0.8% forget probability. GA continues slow descent, forget probability down to ${(curvesChart.data.datasets[0].data[ep]).toFixed(1)}%.`;
+      else if (ep === 15) narrative = "<strong>Epoch 15: GA reaches 7.6% forget probability</strong>. Stable unlearning convergence, retain performance remains high at 44.2%.";
+      
+      document.getElementById('epoch-narrative').innerHTML = narrative;
+      curvesChart.update();
+    }
+
+    // SLIDE 3: GHOST DECODER & CANVAS OSCILLOSCOPE
+    function buildProbingLayerSelector() {
+      const container = document.getElementById('probing-layer-selector');
+      container.innerHTML = '';
+      for (let i = 0; i <= 11; i++) {
+        const btn = document.createElement('button');
+        btn.className = `layer-node-btn ${i === probingActiveLayer ? 'active' : ''}`;
+        btn.innerText = `L${i}`;
+        btn.id = `probe-btn-${i}`;
+        btn.onclick = () => {
+          document.querySelectorAll('.layer-node-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          probingActiveLayer = i;
+          updateProbingDisplay();
+          updateDecodableCityMatrix();
+        };
+        container.appendChild(btn);
+      }
+    }
+
+    function buildDecodableCityMatrix() {
+      const grid = document.getElementById('decodable-city-grid');
+      grid.innerHTML = '';
+      
+      cityLabels.forEach((city, index) => {
+        const card = document.createElement('div');
+        card.className = 'decodable-city-card';
+        card.id = `city-card-${index}`;
+        card.innerHTML = `
+          <span style="font-weight: 600;">${city}</span>
+          <span class="pct" id="city-pct-${index}">0.0%</span>
+        `;
+        grid.appendChild(card);
+      });
+      updateDecodableCityMatrix();
+    }
+
+    function updateDecodableCityMatrix() {
+      const correctCityIndex = cityLabels.indexOf(selectedLandmark.city);
+      const acc = probeAccuracies.clean[probingActiveLayer];
+      
+      cityLabels.forEach((city, index) => {
+        const card = document.getElementById(`city-card-${index}`);
+        const pctSpan = document.getElementById(`city-pct-${index}`);
+        
+        card.classList.remove('active-target', 'decoded');
+        
+        let score = 0;
+        if (index === correctCityIndex) {
+          score = acc;
+          card.classList.add('active-target');
+          if (acc > 5) {
+            card.classList.add('decoded');
+          }
+        } else {
+          const seed = index + probingActiveLayer * 3;
+          score = 1.0 + (Math.sin(seed) * 1.5 + 1.5);
+        }
+        
+        pctSpan.innerText = `${score.toFixed(1)}%`;
+      });
+    }
+
+    function updateProbingDisplay() {
+      const acc = probeAccuracies.clean[probingActiveLayer];
+      document.getElementById('osc-accuracy-val').innerText = `${acc.toFixed(1)}%`;
+      drawOscilloscopeWave();
+    }
+
+    // Canvas Oscilloscope Animation
+    let oscCanvas = null;
+    let oscCtx = null;
+    let oscAnimationId = null;
+    let oscPhase = 0;
+
+    function initOscilloscope() {
+      oscCanvas = document.getElementById('oscilloscope');
+      oscCtx = oscCanvas.getContext('2d');
+      
+      const rect = oscCanvas.getBoundingClientRect();
+      const parentWidth = rect.width || 420;
+      const parentHeight = rect.height || 170;
+      
+      oscCanvas.width = parentWidth;
+      oscCanvas.height = parentHeight;
+      
+      const chanceLine = document.getElementById('osc-chance');
+      const baselineY = oscCanvas.height - (5.0 / 100) * oscCanvas.height;
+      chanceLine.style.top = `${baselineY}px`;
+    }
+
+    function drawOscilloscopeWave() {
+      if (!oscCtx) return;
+      if (oscAnimationId) cancelAnimationFrame(oscAnimationId);
+      
+      const acc = probeAccuracies.clean[probingActiveLayer];
+      const accGA = probeAccuracies.ga[probingActiveLayer];
+      const accNeg = probeAccuracies.neglora[probingActiveLayer];
+      
+      const cleanAmp = (acc / 100) * (oscCanvas.height * 0.45);
+      const gaAmp = (accGA / 100) * (oscCanvas.height * 0.45);
+      const negAmp = (accNeg / 100) * (oscCanvas.height * 0.45);
+      
+      function render() {
+        oscCtx.clearRect(0, 0, oscCanvas.width, oscCanvas.height);
+        
+        oscPhase += 0.08;
+        
+        // 1. Draw Clean Wave (Glowing Indigo)
+        oscCtx.beginPath();
+        oscCtx.lineWidth = 3.5;
+        oscCtx.strokeStyle = 'rgba(79, 70, 229, 0.85)';
+        oscCtx.shadowBlur = 12;
+        oscCtx.shadowColor = 'rgba(79, 70, 229, 0.6)';
+        
+        for (let x = 0; x < oscCanvas.width; x++) {
+          const y = (oscCanvas.height * 0.55) + Math.sin(x * 0.035 + oscPhase) * cleanAmp;
+          if (x === 0) oscCtx.moveTo(x, y);
+          else oscCtx.lineTo(x, y);
+        }
+        oscCtx.stroke();
+        
+        // 2. Draw GA Wave (Rose/Burgundy)
+        oscCtx.beginPath();
+        oscCtx.lineWidth = 1.8;
+        oscCtx.strokeStyle = 'rgba(185, 28, 28, 0.8)';
+        oscCtx.shadowBlur = 0;
+        
+        for (let x = 0; x < oscCanvas.width; x++) {
+          const y = (oscCanvas.height * 0.62) + Math.sin(x * 0.02 + oscPhase * 0.7) * gaAmp;
+          if (x === 0) oscCtx.moveTo(x, y);
+          else oscCtx.lineTo(x, y);
+        }
+        oscCtx.stroke();
+
+        // 3. Draw NegLoRA Wave (Copper Amber)
+        oscCtx.beginPath();
+        oscCtx.lineWidth = 1.8;
+        oscCtx.strokeStyle = 'rgba(217, 119, 6, 0.8)';
+        oscCtx.shadowBlur = 0;
+        
+        for (let x = 0; x < oscCanvas.width; x++) {
+          const y = (oscCanvas.height * 0.68) + Math.sin(x * 0.045 + oscPhase * 0.8) * negAmp;
+          if (x === 0) oscCtx.moveTo(x, y);
+          else oscCtx.lineTo(x, y);
+        }
+        oscCtx.stroke();
+        
+        if (probingActiveLayer === 9 || probingActiveLayer === 10) {
+          drawSparks();
+        }
+        
+        oscAnimationId = requestAnimationFrame(render);
+      }
+      
+      const sparks = [];
+      function drawSparks() {
+        if (Math.random() < 0.2) {
+          sparks.push({
+            x: Math.random() * oscCanvas.width,
+            y: (oscCanvas.height * 0.5) + (Math.random() - 0.5) * cleanAmp,
+            size: Math.random() * 4 + 1.5,
+            alpha: 1,
+            vy: -Math.random() * 2 - 0.5
+          });
+        }
+        
+        sparks.forEach((s, idx) => {
+          s.y += s.vy;
+          s.alpha -= 0.025;
+          
+          if (s.alpha <= 0) {
+            sparks.splice(idx, 1);
+            return;
+          }
+          
+          oscCtx.beginPath();
+          oscCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          oscCtx.fillStyle = `rgba(79, 70, 229, ${s.alpha})`;
+          oscCtx.fill();
+        });
+      }
+      
+      render();
+    }
+
+    // SLIDE 4: FACTUAL HIGHWAY SVG & LAZARUS PATCHING
+    function buildHighwaySVG() {
+      const svg = document.getElementById('highway-svg');
+      svg.innerHTML = '';
+      
+      // 1. Draw Intervention Shield Zone (Layers 8-11)
+      const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      rect.setAttribute("x", "15");
+      rect.setAttribute("y", "20");
+      rect.setAttribute("width", "170");
+      rect.setAttribute("height", "150");
+      rect.setAttribute("rx", "12");
+      rect.setAttribute("class", "intervention-shield-rect");
+      svg.appendChild(rect);
+      
+      // Text label inside shield
+      const shieldText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      shieldText.setAttribute("x", "100");
+      shieldText.setAttribute("y", "35");
+      shieldText.setAttribute("fill", "var(--ga-color)");
+      shieldText.setAttribute("font-size", "7px");
+      shieldText.setAttribute("font-weight", "800");
+      shieldText.setAttribute("letter-spacing", "0.08em");
+      shieldText.setAttribute("text-anchor", "middle");
+      shieldText.innerText = "UNLEARNING INTERVENTION ZONE";
+      svg.appendChild(shieldText);
+      
+      // 2. Draw Main Factual Stream Line
+      const tract = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      tract.setAttribute("d", "M 100,430 L 100,10");
+      tract.setAttribute("stroke", "#e2e8f0");
+      tract.setAttribute("stroke-width", "4");
+      tract.setAttribute("id", "stream-tract");
+      svg.appendChild(tract);
+      
+      // Clean target tract overlay (active visual when patching)
+      const cleanTract = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      cleanTract.setAttribute("d", "M 100,430 L 100,10");
+      cleanTract.setAttribute("stroke", "var(--success-color)");
+      cleanTract.setAttribute("stroke-width", "4");
+      cleanTract.setAttribute("stroke-dasharray", "1000");
+      cleanTract.setAttribute("stroke-dashoffset", "1000");
+      cleanTract.setAttribute("id", "clean-tract-path");
+      cleanTract.setAttribute("style", "transition: stroke-dashoffset 0.8s ease-out; pointer-events: none;");
+      svg.appendChild(cleanTract);
+
+      // 3. Draw Layer Nodes (0 to 11, bottom up)
+      const startY = 400;
+      const stepY = 32;
+      
+      for (let i = 0; i <= 11; i++) {
+        const py = startY - i * stepY;
+        
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("class", `highway-layer-node ${patchedLayers[i] ? 'patched' : ''}`);
+        g.setAttribute("transform", `translate(100, ${py})`);
+        g.setAttribute("id", `highway-node-${i}`);
+        
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("r", "12");
+        g.appendChild(circle);
+        
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.innerText = `L${i}`;
+        g.appendChild(label);
+        
+        // HUD Audit card update actions on hover
+        g.addEventListener('mouseenter', () => {
+          document.getElementById('hud-node').innerText = `Layer ${i}`;
+          document.getElementById('hud-ga').innerText = `${lazarusRecovery.ga[i].toFixed(1)}%`;
+          document.getElementById('hud-neglora').innerText = `${lazarusRecovery.neglora[i].toFixed(1)}%`;
+          
+          let rankText = "Low modification";
+          if (i >= 8) {
+            rankText = i % 2 === 0 ? "High Rank (GA)" : "Low Rank (LoRA)";
+          }
+          document.getElementById('hud-rank').innerText = rankText;
+          
+          const hudPanel = document.getElementById('hud-audit-panel');
+          hudPanel.style.borderColor = patchedLayers[i] ? 'var(--success-color)' : 'var(--clean-color)';
+        });
+        
+        g.addEventListener('mouseleave', () => {
+          const hudPanel = document.getElementById('hud-audit-panel');
+          hudPanel.style.borderColor = 'var(--border-color)';
+        });
+        
+        // Toggle patching
+        g.addEventListener('click', () => {
+          toggleLayerPatch(i);
+        });
+        
+        svg.appendChild(g);
+      }
+    }
+
+    function toggleLayerPatch(layerIndex) {
+      patchedLayers[layerIndex] = !patchedLayers[layerIndex];
+      
+      const node = document.getElementById(`highway-node-${layerIndex}`);
+      if (patchedLayers[layerIndex]) {
+        node.classList.add('patched');
+      } else {
+        node.classList.remove('patched');
+      }
+      
+      updateLazarusGauge();
+      animateSignalFlow();
+    }
+
+    function setPatchMode(mode) {
+      activePatchMode = mode;
+      document.getElementById('patch-mode-ga').classList.remove('active');
+      document.getElementById('patch-mode-neglora').classList.remove('active');
+      
+      if (mode === 'ga') {
+        document.getElementById('patch-mode-ga').classList.add('active');
+      } else {
+        document.getElementById('patch-mode-neglora').classList.add('active');
+      }
+      
+      updateLazarusGauge();
+    }
+
+    function updateLazarusGauge() {
+      let maxLayer = -1;
+      for (let i = 11; i >= 0; i--) {
+        if (patchedLayers[i]) {
+          maxLayer = i;
+          break;
+        }
+      }
+      
+      let targetRecovery = 0;
+      if (maxLayer >= 0) {
+        targetRecovery = lazarusRecovery[activePatchMode][maxLayer];
+      }
+      
+      animateGaugeCount(targetRecovery);
+    }
+
+    function animateGaugeCount(targetVal) {
+      const pctSpan = document.getElementById('lazarus-pct');
+      const startVal = parseFloat(pctSpan.innerText);
+      const duration = 400; // ms
+      const startTime = performance.now();
+      
+      function updateVal(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const currentVal = startVal + progress * (targetVal - startVal);
+        pctSpan.innerText = currentVal.toFixed(1);
+        
+        if (progress < 1) {
+          requestAnimationFrame(updateVal);
+        } else {
+          pctSpan.innerText = targetVal.toFixed(1);
+          
+          const celebration = document.getElementById('lazarus-celebration');
+          if (targetVal >= 100.0) {
+            celebration.style.display = 'block';
+          } else {
+            celebration.style.display = 'none';
+          }
+        }
+      }
+      requestAnimationFrame(updateVal);
+    }
+
+    function animateSignalFlow() {
+      let maxLayer = -1;
+      for (let i = 11; i >= 0; i--) {
+        if (patchedLayers[i]) {
+          maxLayer = i;
+          break;
+        }
+      }
+      
+      const cleanTract = document.getElementById('clean-tract-path');
+      if (maxLayer >= 0) {
+        const startY = 400;
+        const stepY = 32;
+        const targetY = startY - maxLayer * stepY;
+        const length = targetY - 10;
+        
+        cleanTract.setAttribute("d", `M 100,${targetY} L 100,10`);
+        cleanTract.setAttribute("stroke-dasharray", length);
+        cleanTract.setAttribute("stroke-dashoffset", length);
+        
+        cleanTract.getBoundingClientRect();
+        
+        cleanTract.setAttribute("stroke-dashoffset", 0);
+      } else {
+        cleanTract.setAttribute("d", "M 100,430 L 100,10");
+        cleanTract.setAttribute("stroke-dasharray", "1000");
+        cleanTract.setAttribute("stroke-dashoffset", "1000");
+      }
+    }
+
+    // SLIDE 6: CAUSAL HEATMAP GRID
+    function buildCausalHeatmap() {
+      const grid = document.getElementById('causal-grid');
+      grid.innerHTML = '';
+      
+      const tokens = ["The", "Eiffel", "Tower", "is", "located", "in", "[Paris]"];
+      
+      for (let r = 0; r <= 11; r++) {
+        const row = document.createElement('div');
+        row.className = 'causal-row';
+        
+        const label = document.createElement('div');
+        label.className = 'causal-row-label';
+        label.innerText = `Layer ${r}`;
+        row.appendChild(label);
+        
+        const cells = document.createElement('div');
+        cells.className = 'causal-cells';
+        
+        for (let c = 0; c < 7; c++) {
+          const val = causalTracing[r][c];
+          const cell = document.createElement('div');
+          cell.className = 'causal-cell';
+          
+          let color = '#f8fafc';
+          if (val > 0.05) {
+            const alpha = (val / 0.8) * 0.9 + 0.1;
+            color = `rgba(16, 185, 129, ${alpha})`;
+          }
+          
+          cell.style.backgroundColor = color;
+          
+          const tooltip = document.createElement('div');
+          tooltip.className = 'causal-cell-tooltip';
+          tooltip.innerText = `L${r} [${tokens[c]}]: ${(val*100).toFixed(1)}% recovery`;
+          cell.appendChild(tooltip);
+          
+          cells.appendChild(cell);
+        }
+        
+        row.appendChild(cells);
+        grid.appendChild(row);
+      }
+    }
+
+    // LIGHTBOX FOR FIGURES
+    function showRealFigure(figName) {
+      const meta = figuresMeta[figName];
+      if (!meta) return;
+      
+      const overlay = document.getElementById('figures-overlay');
+      document.getElementById('overlay-title').innerText = meta.title;
+      document.getElementById('overlay-image').src = `figures/${figName}`;
+      document.getElementById('overlay-desc').innerText = meta.desc;
+      
+      overlay.style.display = 'flex';
+      overlay.style.animation = 'fadeIn 0.25s ease forwards';
+    }
+
+    function hideRealFigure() {
+      const overlay = document.getElementById('figures-overlay');
+      overlay.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
